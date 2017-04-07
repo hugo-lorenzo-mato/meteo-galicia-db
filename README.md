@@ -34,6 +34,7 @@ La aplicación tendrá una aplicación web desarrollada con el framework para py
 
 <h3>III. Aspectos de la aplicación.</h3>
 
+Mockups iniciales:
 
 ![image](Images%20md/image.png)
 
@@ -46,7 +47,7 @@ La aplicación tendrá una aplicación web desarrollada con el framework para py
 ![image_4](Images%20md/image_4.png)
 
 
-IV. Flujo de datos de la aplicación.
+<h3>IV. Flujo de datos de la aplicación.</h3>
 
 ![image_5](Images%20md/image_5.png)
 
