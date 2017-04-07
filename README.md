@@ -1,7 +1,5 @@
 
-
-
-I. Datos de los integrantes.
+<h3>I. Datos de los integrantes.</h3>
 
 Miguel Ouviña Santamaría:    miguel.ouvina@udc.es
 
@@ -12,60 +10,69 @@ Grupo 5.2
 Laboratorio Miércoles 11:30
 
 
-II. Funcionalidades a implementar.
-
-
+<h3>II. Funcionalidades a implementar.</h3>
 
 
 Nuestra propuesta se basa en una aplicación desarrollada en Python que permitirá a los usuarios:
 
 
-1) Consultar los datos del tiempo para el mismo día o un período posterior y para una zona o localidad determinada.
+- 1) Consultar los datos del tiempo para el mismo día o un período posterior y para una zona o localidad determinada.
 
-2) Se mostrará la anterior información acompañada de un estudio de los mismos datos obtenidos en el período de tiempo anterior que seleccione el usuario. Estos datos históricos se referirán a la zona o localidad que haya seleccionado previamente y a las mismas variables.
+- 2) Se mostrará la anterior información acompañada de un estudio de los mismos datos obtenidos en el período de tiempo anterior que seleccione el usuario. Estos datos históricos se referirán a la zona o localidad que haya seleccionado previamente y a las mismas variables.
 
-3) Se le permitirá además recibir esta información agregada en distintos formatos de representación gráfica (histogramas, circulares, etc.) e igualmente se le permitirá manipular las variables que desee observar o comparar.
+- 3) Se le permitirá además recibir esta información agregada en distintos formatos de representación gráfica (histogramas, circulares, etc.) e igualmente se le permitirá manipular las variables que desee observar o comparar.
 
-4) Cuando el usuario no introduzca ninguna zona, se le mostrará la predicción más cercana a su posición.
+- 4) Cuando el usuario no introduzca ninguna zona, se le mostrará la predicción más cercana a su posición.
 
-5) El usuario podrá registrarse y loguearse en la web para realizar las consultas que desee.
+- 5) El usuario podrá registrarse y loguearse en la web para realizar las consultas que desee.
 
-6) El registro y acceso se podrá realizar también a través de algunas de las redes sociales con mayor número de seguidores: Facebook y Twitter.
+- 6) El registro y acceso se podrá realizar también a través de algunas de las redes sociales con mayor número de seguidores: Facebook y Twitter.
 
 La aplicación tendrá una aplicación web desarrollada con el framework para python Django.
 
 
 
-III. Aspectos de la aplicación.
+<h3>III. Aspectos de la aplicación.</h3>
 
 
+![image](image.png)
 
-Gráficos incluidas en PDF.
+![image_1](image_1.png)
 
+![image_2](image_2.png)
 
+![image_3](image_3.png)
+
+![image_4](image_4.png)
 
 
 IV. Flujo de datos de la aplicación.
 
+![image_5](image_5.png)
+
+![image_6](image_6.png)
+
+![image_7](image_7.png)
+
+![image_8](image_8.png)
 
 
-Gráficos incluidas en PDF.
 
-
-
-
-
-V. APIs utilizadas.
+<h3>V. APIs utilizadas.</h3>
 
 Las APIs que utilizaremos para nuestro proyecto son las siguientes:
-MeteoSIX de Meteogalicia: a través de la misma obtendremos todos los datos vinculados a la previsión del tiempo para el mismo día o algunos los posteriores que indique el usuario.
 
-AEMET Open Data: nos serviremos de esta otra aplicación para obtener los datos históricos, ya que  MeteoSIX no mantiene un registro de datos histórico.
+[MeteoSIX](http://servizos.meteogalicia.gal/api_manual/gl/index.html) de Meteogalicia: a través de la misma obtendremos todos los datos vinculados a la previsión del tiempo para el mismo día o algunos los posteriores que indique el usuario.
 
-Google Maps: a la que acudiremos para representar el lugar o zona para la que se ha realizado la consulta.
+[AEMET Open Data](https://opendata.aemet.es/centrodedescargas/inicio) : nos serviremos de esta otra aplicación para obtener los datos históricos, ya que  MeteoSIX no mantiene un registro de datos histórico.
+) : nos serviremos de esta otra aplicación para obtener los datos históricos, ya que  MeteoSIX no mantiene un registro de datos histórico.
 
-También haremos un uso menor de otras APIs, como la de Facebook y Twitter para permitir el registro/acceso de usuarios.
-VI. Uso de pandas.
+[Google Maps](https://developers.google.com/maps/web/?hl=es-419) : a la que acudiremos para representar el lugar o zona para la que se ha realizado la consulta.
+
+También haremos un uso menor de otras APIs, como la de [Facebook](https://developers.facebook.com/docs/marketing-api/using-the-api) y [Twitter](https://dev.twitter.com/rest/public) para permitir el registro/acceso de usuarios.
+
+
+<h3>VI. Uso de pandas.</h3>
 
 Haremos uso de pandas para manipular los datos que iremos consiguiendo tanto de la API de MeteoSIX, como de AEMET fundamentalmente.
 
