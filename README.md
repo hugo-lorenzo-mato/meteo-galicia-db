@@ -35,26 +35,26 @@ La aplicación tendrá una aplicación web desarrollada con el framework para py
 <h3>III. Aspectos de la aplicación.</h3>
 
 
-![image](image.png)
+![image](Images%20md/image.png)
 
-![image_1](image_1.png)
+![image_1](Images%20md/image_1.png)
 
-![image_2](image_2.png)
+![image_2](Images%20md/image_2.png)
 
-![image_3](image_3.png)
+![image_3](Images%20md/image_3.png)
 
-![image_4](image_4.png)
+![image_4](Images%20md/image_4.png)
 
 
 IV. Flujo de datos de la aplicación.
 
-![image_5](image_5.png)
+![image_5](Images%20md/image_5.png)
 
-![image_6](image_6.png)
+![image_6](Images%20md/image_6.png)
 
-![image_7](image_7.png)
+![image_7](Images%20md/image_7.png)
 
-![image_8](image_8.png)
+![image_8](Images%20md/image_8.png)
 
 
 
