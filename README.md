@@ -4,12 +4,17 @@
 I. Datos de los integrantes.
 
 Miguel Ouviña Santamaría:    miguel.ouvina@udc.es
-Hugo Manuel Lorenzo Mato: hugo.lorenzo.mato@udc.es
+
+Hugo Manuel Lorenzo Mato:    hugo.lorenzo.mato@udc.es
+
 Grupo 5.2
+
 Laboratorio Miércoles 11:30
 
 
 II. Funcionalidades a implementar.
+
+
 
 
 Nuestra propuesta se basa en una aplicación desarrollada en Python que permitirá a los usuarios:
