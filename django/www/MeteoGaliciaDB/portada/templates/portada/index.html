@@ -9,27 +9,19 @@
     <meta name="description" content="Aplicación desarrollada con Python y Django que hace uso de Pandas y acceso a
      datos a través de APIS">
     <meta name="author" content="Hugo Lorenzo Mato / Miguel Ouviña Santamaría">
-    <link href="{% static "css/blog.css" %}" rel="stylesheet">
     <link rel="shortcut icon" type="image/gif" href="{% static 'portada/images/favicon.ico' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'portada/bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'portada/style.css' %}" />
-    <title>{% block title %}{% endblock %}</title>
-
+    <title>MeteoGaliciaDB: obtén información sobre el tiempo en tu zona y compara el resultado con años anteriores</title>
 </head>
 <body>
 <div class="container">
-    {% include 'blog/header.html' %}
-    <div id="content">
-        {% block content %}
-        {% endblock %}
-    </div>
-    <div id="sidebar">
-        <h2>Meteo Galicia DB Blog</h2>
-        <p>Bienvenido al blog de MeteoGaliciaDB.com</p>
-    </div>
-    {% include 'blog/footer.html' %}
+    {% include 'portada/header.html' %}
+    {% include 'portada/jumbotron.html' %}
+    {% include 'portada/rows.html' %}
+    {% include 'portada/footer.html' %}
 </div>
-
 </body>
 </html>
+
 

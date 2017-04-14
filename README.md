@@ -63,10 +63,9 @@ Mockups iniciales:
 
 Las APIs que utilizaremos para nuestro proyecto son las siguientes:
 
-[MeteoSIX](http://servizos.meteogalicia.gal/api_manual/gl/index.html) de Meteogalicia: a través de la misma obtendremos todos los datos vinculados a la previsión del tiempo para el mismo día o algunos los posteriores que indique el usuario.
+[MeteoSIX](http://servizos.meteogalicia.gal/api_manual/gl/index.html) de Meteogalicia: a través de la misma obtendremos todos los datos vinculados a la previsión del tiempo para el mismo día o algunos de los posteriores que indique el usuario.
 
-[AEMET Open Data](https://opendata.aemet.es/centrodedescargas/inicio) : nos serviremos de esta otra aplicación para obtener los datos históricos, ya que  MeteoSIX no mantiene un registro de datos histórico.
-) : nos serviremos de esta otra aplicación para obtener los datos históricos, ya que  MeteoSIX no mantiene un registro de datos histórico.
+[AEMET Open Data](https://opendata.aemet.es/centrodedescargas/inicio) : nos serviremos de esta otra aplicación para obtener los datos históricos, ya que  MeteoSIX no mantiene un registro de datos históricos.
 
 [Google Maps](https://developers.google.com/maps/web/?hl=es-419) : a la que acudiremos para representar el lugar o zona para la que se ha realizado la consulta.
 
