@@ -3,6 +3,7 @@
 import urllib3
 import json
 import requests
+import numpy as np
 
 # Consultamos el lugar al usuario
 print("Selecciona el lugar para obtener sus datos: ")
@@ -154,8 +155,7 @@ parametros3 = {'coords': coordenadas, 'variables': variables, 'API_KEY': api_cod
 peticion3 = requests.get(url, parametros3)
 # Obtenemos la respuesta
 respuesta3 = json.loads(peticion3.text)
-print("La respuesta HTTP obtenida para el tiempo de las coordenadas y variables que le pasamos es: {}".format(
-    peticion3.status_code))
+print("La respuesta HTTP obtenida para el tiempo de las coordenadas y variables que le pasamos es: {}".format(peticion3.status_code))
 print()
 
 # Vamos extrayendo los valores que nos interesan
@@ -166,8 +166,8 @@ print()
 
 #Imprimimos todos los valores para la temperatura
 
-
 # de 0 a longitud del array de días
+
 for i in range(len(respuesta3['features'][0]['properties']['days'])):
     if i == 0:
         print()
@@ -766,3 +766,13 @@ Lo que obtenemos es esto:
 
 
 '''
+
+
+'''
+Prueba que hice con split, pero no me muestra el html
+
+imprimir = str(peticion3.content).split('<body>')
+imprimir2 = imprimir[1].split('</tbody>')
+print()
+print(imprimir2[0])
+print()'''

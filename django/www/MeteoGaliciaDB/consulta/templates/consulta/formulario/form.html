@@ -1,0 +1,47 @@
+{%  extends "consulta/base.html" %}
+
+{% block title %} MeteoGaliciaDB {% endblock %}
+
+{% block content %}
+    <br>
+    <br>
+    <h4> Cubra el siguiente formulario para obtener los datos:</h4>
+    <br>
+    <form action="/consulta/resultado" method="get">
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Introducir localidad..." action="/getTidesInfo">
+            <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button">Obtener datos!</button>
+            </span>
+        </div>
+    </div>
+    </form>
+<!--
+    <br>
+    <br>
+    <br>
+    <p><b>¿Para que días desea obtener la predicción?</b></p>
+    <br>
+    <label class="checkbox-inline"><input type="checkbox" value="">Para hoy</label>
+    <label class="checkbox-inline"><input type="checkbox" value="">Mañana</label>
+    <label class="checkbox-inline"><input type="checkbox" value="">Pasado Mañana</label>
+    <br>
+    <br>
+    <form>
+        <div class="form-group">
+            <label for="sel1">Seleccione el tipo de gráfica que desea obtener:</label>
+            <br>
+            <select class="form-control" id="sel1">
+                <option>Histograma</option>
+                <option>Dispersión</option>
+                <option>Lineal</option>
+                <option>Puntos</option>
+            </select>
+        </div>
+    <br>
+    <br>
+    <button type="button" class="btn btn-primary">Enviar formulario y obtener datos!</button>
+    </form>
+-->
+{% endblock %}
