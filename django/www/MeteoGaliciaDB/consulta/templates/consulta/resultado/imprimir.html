@@ -3,25 +3,12 @@
 
 {% block content %}
 
-    {{ respuesta3 }}
+    <BR>
+    <p>Predicción del tiempo para:<h1>{{ lugar }}</h1></p>
+    <BR>
+    {% autoescape off %}{{ respuesta3 }}{% endautoescape %}
+    <BR>
+    <BR>
 
-
-
-    <table id="tabla1" class="table stacktable" border="0">
-        <tr>
-            <th>mediodia</th>
-            <th>tarde</th>
-            <th>noche</th>
-        </tr>
-        <tr>
-            <td>kahsdkjlashdjkasvblsfabvksvjasbkjvbadskbvksdvsda</td>
-            <td>kahsdkjlashdjkashdkjasfabvksvjasbkjvbadskbvksdvsda</td>
-            <td>kahsdkjlashdjka
-        <tr>
-            <td>kahsdkfgdgdfgdfgdfabvksvjasbkjvbadskbvksdvsda</td>
-            <td>kahsdkfgdgdfgdfgdfgdfgddfbadskbvksdvsda</td>
-            <td>kahsdkfgdgdfgdabysgflskjbsdlsbkjvbadskbvksdvsda</td>
-        </tr>
-    </table>
 
 {% endblock %}
