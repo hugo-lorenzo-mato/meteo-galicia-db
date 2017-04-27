@@ -17,6 +17,12 @@ def formulario(request):
             # Consultamos el lugar al usuario
             # Preparamos los datos de la petición
             api_code = 'tcZwyEj10Lb5W11usQMSM52QIlCutCCI64LfHv8AeuJsp9aE1F16tsn4yvdK0R52'
+            '''
+            key = open('meteosix_api_key', 'r')
+            clave = ""
+            for lineas in key:
+                clave = clave + lineas
+            '''
             parametros = {'location': lugar, 'API_KEY': api_code}
             url = 'http://servizos.meteogalicia.es/apiv3/findPlaces'
 

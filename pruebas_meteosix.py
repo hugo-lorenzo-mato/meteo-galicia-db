@@ -189,7 +189,7 @@ http://servizos.meteogalicia.es/apiv3/getNumericForecastInfo?coords=-7.13934,43.
 Desde esta url podemos ver lo que nos devuelve el json mejor que desde terminal...
 
 http://codebeautify.org/jsonviewer
-
+https://opendata.aemet.es/opendata/sh/8649a5d7
 --> La consulta para que nos devuelva json y no html como arriba es tal que así:
 
 http://servizos.meteogalicia.es/apiv3/getNumericForecastInfo?coords=-7.13934,43.23871&format=application/html&API_KEY=tcZwyEj10Lb5W11usQMSM52QIlCutCCI64LfHv8AeuJsp9aE1F16tsn4yvdK0R52&variables=temperature
