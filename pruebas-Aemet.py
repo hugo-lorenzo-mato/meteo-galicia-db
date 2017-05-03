@@ -17,6 +17,7 @@ import pandas as pd
 import numpy as np
 
 
+
 print("Añade el año del que deseas ver el historico")
 anho = input()
 
@@ -32,23 +33,23 @@ payload = {"api_key":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWd1ZWxvdXZpbmhhQGdtYWlsL
 
 response = requests.request("GET", url, params=querystring, verify=False)
 
-print(response.text)
+#print(response.text)
 
 cont = json.loads(response.text)
 
-print(cont)
+#print(cont)
 
 url_2 = cont['datos']
 
-print(url_2)
+#print(url_2)
 
 r = requests.request("GET", url_2, verify=False)
 
-print(r.text)
+#print(r.text)
 
 datos = json.loads(r.text)
 
-print(datos)
+#print(datos)
 
 
 
@@ -56,7 +57,7 @@ print(datos)
 EMPEZAMOS EL ANALISIS DE PANDAS
 """
 
-# como datos es una lista tenemos que acceder a los 12 elementos (meses)
+# como datos es una lista tenemos que acceder a los 12 elementos (meses) 
 
 
 campos = [ 'ta_max', 'ta_min', 'fecha', 'indicativo']
@@ -65,28 +66,60 @@ campos = [ 'ta_max', 'ta_min', 'fecha', 'indicativo']
 
 frame = pd.DataFrame( datos, columns = campos)
 
+print("Estos son los datos con los que se van a construir las graficas")
 print(frame)
 
 # LIMPIAMOS EL CONTENIDO DEL DATAFRAME
+
 """
-frame.agg( [('ta_max', lambda x:  x[i].replace(",",""))] )
-
-print(frame)
+lista = frame.ta_max.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(','))
+print(lista)
+temperatura_max = lista.map(lambda x: x[0])
+print(temperatura_max)
 """
 
-# DIBUJAMOS EL GRAFICO
 
+temperatura_max = frame.ta_max.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')).map(lambda x: x[0]).map(lambda x: float(x))
+print(temperatura_max)
+
+temperatura_min = frame.ta_min.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')).map(lambda x: x[0]).map(lambda x: float(x))
+print(temperatura_min)
+
+fechas = frame.fecha.map(lambda x: x.replace('-', ',')).map(lambda x: x.split(',')).map(lambda x: x[1])
+print(fechas)
+
+data = { 'temp_max': temperatura_max,
+		 'temp_min': temperatura_min }
+
+framefinal = pd.DataFrame(data)#, index = ['1','2','3','4','5','6','7','8','9','10','11','12','13'])
+print("******************************************************")
+print(framefinal)
+
+
+# DIBUJAMOS LA FUCK GRAFICA
+
+framefinal.plot()
+# Mostramos en pantalla
+plt.show()
+
+# map(lambda x: x.rstrip( "(")))
+
+# DIBUJAMOS EL GRAFIC
+"""
 df = DataFrame(np.random.rand(6, 4),index=['one', 'two', 'three', 'four', 'five', 'six'],columns=pd.Index(['A', 'B', 'C', 'D'], name='Genus'))
 df
 df.plot(kind='bar', figsize=(15,10) )
 
 
+#ESTO ES UNA BURRADA PERO PARA MOSTRAR DE MOMENTO VALE
 
-
+# Mostramos en pantalla
+plt.show()
+"""
 
 ## PRUEBA DE CONCEPTO
 
-
+"""
 print("Añade el año de inicio del que desea ver el historico")
 ini = input()
 
@@ -140,4 +173,14 @@ while (dif != 0 ):
 
 
 print("FINNNNNNNNN!!!!!!!!!!!!!!!")
+
+
+"""
+
+
+
+"""
+	********************************** EJEMPLO QUE VA A SER INCORPORADO YA A LA WEB  ******************************************************
+"""
+
 
