@@ -27,7 +27,7 @@ print("La clave es ====> {}".format(clave))
 '''
 #Vamos a introducir el siguiente rango de fechas
 
-print("Desde que ao desea saber")
+print("Desde que año desea saber")
 decision_anho = int(input())
 print("¿Cuántos años atrás quiere obtener?: ")
 decision_atras = int(input())

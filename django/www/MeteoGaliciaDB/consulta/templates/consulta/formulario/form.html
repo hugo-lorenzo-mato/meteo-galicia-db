@@ -7,10 +7,12 @@
     <br>
     <h4> Cubra el siguiente formulario para obtener los datos:</h4>
     <br>
+    <p>Seleccione el lugar para el que desea obtener la predicción del tiempo: </p>
     <form style="float: left; display: inline;" method="POST">
         {{ form.as_p }}
+
         {% csrf_token  %}
-        <input style="float: left; margin-left: 10%;" type="submit" class="btn btn-primary" value="Enviar">
+        <input style="float: left; margin-left: 40%; margin-top: 10%; margin-bottom: 10%; padding: 2% 10%; border-radius: 20px;" type="submit" class="btn btn-primary" value="Enviar">
     </form>
 
 {% endblock %}
@@ -24,42 +26,3 @@
 
 
 
-
-
-    <!--    <form action="/consulta/resultado" method="get">
-   <div class="col-lg-6">
-       <div class="input-group">
-           <input type="text" class="form-control" placeholder="Introducir localidad..." action="/getTidesInfo">
-           <span class="input-group-btn">
-           <button class="btn btn-secondary" type="button">Obtener datos!</button>
-           </span>
-       </div>
-   </div>
-   </form>
-
-   <br>
-   <br>
-   <br>
-   <p><b>¿Para que días desea obtener la predicción?</b></p>
-   <br>
-   <label class="checkbox-inline"><input type="checkbox" value="">Para hoy</label>
-   <label class="checkbox-inline"><input type="checkbox" value="">Mañana</label>
-   <label class="checkbox-inline"><input type="checkbox" value="">Pasado Mañana</label>
-   <br>
-   <br>
-   <form>
-       <div class="form-group">
-           <label for="sel1">Seleccione el tipo de gráfica que desea obtener:</label>
-           <br>
-           <select class="form-control" id="sel1">
-               <option>Histograma</option>
-               <option>Dispersión</option>
-               <option>Lineal</option>
-               <option>Puntos</option>
-           </select>
-       </div>
-   <br>
-   <br>
-   <button type="button" class="btn btn-primary">Enviar formulario y obtener datos!</button>
-   </form>
--->
