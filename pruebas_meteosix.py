@@ -4,14 +4,33 @@ import urllib3
 import json
 import requests
 import numpy as np
+import time
+from datetime import timedelta
+import datetime
 
+x = datetime.datetime.now()
+print(x.isoformat()[:-7])
+print(x + timedelta(days=4))
+'''
+hora_actual = time.strftime("%Y-%m-%dT%H:00:00")
+print("¿De cuántos días desea obtener la predicción?")
+print("La hora actual es: {}".format(hora_actual))
+print()
+print()
+hora_siguiente = time.strftime("%Y-%m-%dT%H:00:00")
+print("La hora siguiente es: {}".format(hora_siguiente))
+print()
+print()
+'''
 # Consultamos el lugar al usuario
+from django.forms.fields import DateField
+
 print("Selecciona el lugar para obtener sus datos: ")
 lugar = input()
 
 # Preparamos los datos de la petición
 api_code = 'tcZwyEj10Lb5W11usQMSM52QIlCutCCI64LfHv8AeuJsp9aE1F16tsn4yvdK0R52'
-parametros = {'location': lugar, 'API_KEY': api_code}
+parametros = {'location': lugar, 'API_KEY': api_code,'format': 'application/json'}
 url = 'http://servizos.meteogalicia.es/apiv3/findPlaces'
 
 # Enviamos la peticion
@@ -52,6 +71,8 @@ Nos devuelve un json con la siguiente estructura
 
 '''
 respuesta = json.loads(peticion.text)
+
+print("La peticion es: " + str(peticion.url))
 
 # Obtenemos nuestras coordenadas
 longitud = str(respuesta['features'][0]['geometry']['coordinates'][0])
@@ -136,12 +157,11 @@ Y obtenemos una respuesta con la siguiente estructura:
 url = 'http://servizos.meteogalicia.es/apiv3/getNumericForecastInfo'
 coordenadas = longitud + ',' + latitud
 print("Las coordenadas juntas son: {}".format(coordenadas))
-parametros2 = {'coords': coordenadas, 'API_KEY': api_code}
+parametros2 = {'coords': coordenadas, 'API_KEY': api_code, 'startTime':'2013-03-07T15:00:00', 'endTime':'2013-03-08T08:00:00'}
 # Enviamos la peticion
 peticion2 = requests.get(url, parametros2)
 
 # Obtenemos la respuesta
-
 respuesta2 = json.loads(peticion2.text)
 
 # Imprimos la información que hemos obtenido
@@ -150,7 +170,7 @@ print()
 
 # Si queremos obtener unos datos concretos, le pasamos como parámetros las variables que deseamos
 variables = 'temperature'  # 'sky_state,temperature,precipitation_amount,wind'
-parametros3 = {'coords': coordenadas, 'variables': variables, 'API_KEY': api_code}
+parametros3 = {'coords': coordenadas, 'variables': variables, 'API_KEY': api_code, 'startTime': hora_actual, 'endTime':hora_siguiente}
 # Enviamos la peticion
 peticion3 = requests.get(url, parametros3)
 # Obtenemos la respuesta

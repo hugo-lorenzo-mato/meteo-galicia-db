@@ -23,7 +23,7 @@ def formulario(request):
             for lineas in key:
                 clave = clave + lineas
             '''
-            parametros = {'location': lugar, 'API_KEY': api_code}
+            parametros = {'location': lugar, 'API_KEY': api_code, 'format': 'application/json'}
             url = 'http://servizos.meteogalicia.es/apiv3/findPlaces'
 
             # Enviamos la peticion
