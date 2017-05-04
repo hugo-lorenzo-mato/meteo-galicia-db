@@ -8,22 +8,19 @@ import time
 from datetime import timedelta
 import datetime
 
-x = datetime.datetime.now()
-print(x.isoformat()[:-7])
-print(x + timedelta(days=4))
-'''
-hora_actual = time.strftime("%Y-%m-%dT%H:00:00")
-print("¿De cuántos días desea obtener la predicción?")
-print("La hora actual es: {}".format(hora_actual))
+hora_actual = datetime.datetime.now().isoformat()
+hora_actual = hora_actual[:-7]
+print(hora_actual)
 print()
 print()
-hora_siguiente = time.strftime("%Y-%m-%dT%H:00:00")
-print("La hora siguiente es: {}".format(hora_siguiente))
-print()
-print()
-'''
+print("Selecciona el nº de días de predicción[1:7] ")
+dias = input()
+hora_siguiente = (datetime.datetime.now() + timedelta(days=int(dias))).isoformat()
+hora_siguiente = hora_siguiente[:-7]
+print(hora_siguiente)
+
+
 # Consultamos el lugar al usuario
-from django.forms.fields import DateField
 
 print("Selecciona el lugar para obtener sus datos: ")
 lugar = input()

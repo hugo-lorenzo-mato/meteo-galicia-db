@@ -1,0 +1,19 @@
+{% extends 'registros/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="signup-form-container">
+
+    {% if registered %}
+        <h1>Gracias por registrarse!</h1>
+    {% else %}
+        <h1>Regístrese aquí</h1>
+        <h3>Cubra el siguiente formulario:</h3>
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+            <input type="submit" value="Registrarse">
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

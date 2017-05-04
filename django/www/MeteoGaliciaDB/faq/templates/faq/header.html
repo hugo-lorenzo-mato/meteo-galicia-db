@@ -1,5 +1,10 @@
 <div class="masthead">
     <h3 class="text-muted">MeteoGaliciaDB</h3>
+    {%  if user.is_authenticated %}
+        <li class="log"><a href="/registro/salir">Salir</a></li>
+    {% else %}
+        <li class="log"><a href="/registro/acceso">Ingresar</a></li>
+    {% endif %}
     <nav>
         <ul class="nav nav-justified">
             <li><a href="/">Inicio</a></li>

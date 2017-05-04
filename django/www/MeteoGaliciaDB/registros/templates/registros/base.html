@@ -1,0 +1,28 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Aplicación desarrollada con Python y Django que hace uso de Pandas y acceso a
+     datos a través de APIS">
+    <meta name="author" content="Hugo Lorenzo Mato / Miguel Ouviña Santamaría">
+    <link rel="shortcut icon" type="image/gif" href="{% static 'portada/images/favicon.ico' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'portada/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'portada/bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" />
+    <title>MeteoGaliciaDB: obtén información sobre el tiempo en tu zona y compara el resultado con años anteriores</title>
+</head>
+<body>
+<div class="container">
+    {% include 'registros/header.html' %}
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% include 'portada/footer.html' %}
+</div>
+
+</body>
+</html>
