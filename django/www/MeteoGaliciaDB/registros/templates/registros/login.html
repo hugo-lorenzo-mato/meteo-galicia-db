@@ -16,6 +16,12 @@
                 <input type="password" name="password">
                 <input type="submit" value="Loguearse">
             </form>
+            <BR><BR>
+            <p><strong>-- O accede empleando los siguientes métodos --</strong></p>
+            <BR>
+            <a href="{% url 'social:begin' 'twitter' %}">Acceso con Twitter</a><br>
+            <BR>
+            <a href="{% url 'social:begin' 'facebook' %}">Acceso con Facebook</a>
         {% endif %}
     </div>
 {% endblock %}

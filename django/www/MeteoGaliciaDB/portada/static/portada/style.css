@@ -7,6 +7,15 @@ body {
   background: #eafaff;
 }
 
+.bienvenida p{
+  display: inline-block;
+  margin-right: 2%;
+}
+
+.nobienvenida p{
+  display: block;
+}
+
 .footer {
   padding-top: 40px;
   padding-bottom: 40px;

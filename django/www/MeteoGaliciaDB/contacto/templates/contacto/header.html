@@ -2,11 +2,17 @@
     <h3 class="text-muted">MeteoGaliciaDB</h3>
     <div>
         {%  if user.is_authenticated %}
-            <p class="log"><a href="/registro/salir">Salir</a></p>
+            <div class="bienvenida">
+                <p>Bienvenido {{ user.username }}!</p>
+                <p><a href="/registro/salir">Salir</a></p>
+            </div>
         {% else %}
-            <p class="log"><a href="/registro/acceso">Ingresar</a></p>
+            <div class="nobienvenida">
+                <p><a href="/registro/acceso">Ingresar</a></p>
+            </div>
         {% endif %}
-    </div>    <nav>
+    </div>
+    <nav>
         <ul class="nav nav-justified">
             <li><a href="/">Inicio</a></li>
             <li><a href="/blog/">Blog</a></li>

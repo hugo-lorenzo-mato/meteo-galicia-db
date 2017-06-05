@@ -25,7 +25,7 @@ SECRET_KEY = 'gygw6yv-9hw2=$iskk82u(+x8av)d$m9pp)wxdga_d&q%%k1-0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'contacto',
     'faq',
     'registros',
+    'social_django', # <-- Los pongo para identificar lo añadido para el login social
 ]
 
 MIDDLEWARE = [
@@ -53,7 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware', # <--
 ]
+
 
 ROOT_URLCONF = 'MeteoGaliciaDB.urls'
 
@@ -68,10 +71,21 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect',  # <--
             ],
         },
     },
 ]
+
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 
 WSGI_APPLICATION = 'MeteoGaliciaDB.wsgi.application'
 
@@ -138,3 +152,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+SOCIAL_AUTH_FACEBOOK_KEY = '394095107651835'
+SOCIAL_AUTH_FACEBOOK_SECRET = '4c2b5bdd6a4b8b25acc7c109c613b108'
+LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
