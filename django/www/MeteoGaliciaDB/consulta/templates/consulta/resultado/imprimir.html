@@ -1,21 +1,17 @@
 {%  extends "consulta/base.html" %}
 {% block title %} MeteoGaliciaDB {% endblock %}
 
-{% block content %}
+{% block result %}
 
     <BR>
     <p>Predicción del tiempo para:<h1>{{ lugar }}</h1></p>
     <BR>
-    {% autoescape off %}{{ respuesta3 }}{% endautoescape %}run
+    {% autoescape off %}{{ respuesta3 }}{% endautoescape %}
+    <div id="map"></div>
     <BR>
-    <p>{{hora_actual}}</p>
-    <p>+{{horas}}</p>
-    <p>{{ hora_siguiente }}</p>
-    <p>{{ trozos }}</p>
-    <p> ------>{{ prueba }}</p>
-    <p> variables {{ variables }}</p>
-    <p> {% for Variable in Variables %} {{ Variable }} {% endfor %}</p>
     <BR>
+
+
 {% endblock %}
 
 

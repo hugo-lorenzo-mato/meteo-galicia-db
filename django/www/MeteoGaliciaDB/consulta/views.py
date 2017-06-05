@@ -58,7 +58,8 @@ def formulario(request):
             hora_siguiente = hora_siguiente[:-7]
 
             # Si queremos obtener unos datos concretos, le pasamos como parámetros las variables que deseamos
-            parametros3 = {'coords': coordenadas, 'variables': variables, 'API_KEY': api_code, 'format':'text/html', 'endTime':hora_siguiente,}
+            parametros3 = {'coords': coordenadas, 'variables': variables, 'API_KEY': api_code,
+                           'format':'text/html', 'endTime':hora_siguiente, 'lang':"es"}
             # Enviamos la peticion
             peticion3 = requests.get(url, parametros3)
             # Obtenemos la respuesta
@@ -79,10 +80,7 @@ def formulario(request):
 
 
 
-
-
-
-
+'''
 def resultado(request):
 
     # Consultamos el lugar al usuario
@@ -129,3 +127,4 @@ def resultado(request):
 
 
     return render(request, 'consulta/resultado/imprimir.html', {'respuesta3': respuesta3})
+'''

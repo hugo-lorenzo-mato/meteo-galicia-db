@@ -4,6 +4,7 @@
     <div class="jumbotron">
         {% if logged %}
             <h1>Gracias por loguearse!</h1>
+            <p>Ya puede realizar sus predicciones desde <a href="/consulta">aquí</a></p>
         {% else %}
             <h3>Por favor, introduzca sus credenciales para poder realizar consultas:</h3>
             <BR>
@@ -12,7 +13,7 @@
                 <label for="username">Nombre de usuario:</label>
                 <input type="text" name="username" placeholder="Introduzca su usuario">
                 <label for="password">Contraseña:</label>
-                <input type="text" name="password">
+                <input type="password" name="password">
                 <input type="submit" value="Loguearse">
             </form>
         {% endif %}

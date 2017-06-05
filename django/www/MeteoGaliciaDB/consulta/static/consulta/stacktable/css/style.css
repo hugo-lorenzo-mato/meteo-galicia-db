@@ -87,7 +87,6 @@ pre {
           border-radius: 10px;
 }
 
-
 #wrapper {
   overflow: hidden;
   width: 100%;
@@ -151,4 +150,5 @@ input[readonly] {
 .invisible { visibility: hidden; }
 .clearfix:before, .clearfix:after { content: ""; display: table; }
 .clearfix:after { clear: both; }
-.clearfix { *zoom: 1; }*/
+.clearfix { *zoom: 1; }*
+

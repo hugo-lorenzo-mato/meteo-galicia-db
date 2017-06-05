@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.formulario, name='formulario'),
-    url(r'^resultado/$', views.resultado, name='resultado'),
+    #url(r'^resultado/$', views.resultado, name='resultado'),
 ]

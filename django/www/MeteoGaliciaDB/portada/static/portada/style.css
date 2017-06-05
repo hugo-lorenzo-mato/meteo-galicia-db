@@ -66,6 +66,21 @@ body {
 
 
 
+#prediccion{
+    width: 57%;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 2%;
+}
+
+
+.log{
+  margin:1%;
+  text-decoration: underline;
+  float: right;
+}
+
+
 
 
 @media (min-width: 768px) {
