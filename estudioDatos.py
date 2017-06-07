@@ -15,7 +15,18 @@ querystring = {"api_key":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWd1ZWxvdXZpbmhhQGdtY
 
 # Pedimos los datos al ususario
 # Con esto pedimos el idema directamente, pero sería deseable pedir lugar y buscar nosotros el idema
-idema = str(input("Inserte el lugar del que quiera obtener los datos (A Coruña = 1387): \n"))
+print("Inserte el lugar del que quiera obtener los datos: \n")
+print(" Provincia ------------ Estacion ------------- Idema ")
+print(" A Coruña       A Coruña (Estación completa)   1387")
+print(" A Coruña         A Coruña (Aeroporto)         1387E")
+print(" A Coruña  Santiago de Compostela (Labacolla)  1428")
+print(" A Coruña             Cabo Vilán               1393")
+print(" Lugo              Rozas (Aeródromo)           1505")
+print(" Ourense       Ourense (Granxa Deputación)     1690A")
+print(" Pontevedra        Pontevedra (Mourente)       1484C")
+print(" Pontevedra           Vigo (Peinador)          1495")
+idema = str(input())
+
 
 analisis = input("Desea un analisis mensual/anual (1) o diario (2): \n")
 
@@ -110,8 +121,10 @@ if (analisis == "1"):
     frame_vento = frame_vento.iloc[0:12]
     print(frame_vento)
 
+    # Limpiamos datos y obtenemos los grados completos del resultada
     frame_vento_dir = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[0]).map(lambda x: float(x)) * 10
-    frame_vento_vel = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[1]).map(lambda x: float(x))
+    # Limpiamos datos y pasamos a kilometros por hora
+    frame_vento_vel = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[1]).map(lambda x: float(x)) / 1000 * 3600
 
     print("dir \n")
     print(frame_vento_dir)
@@ -139,20 +152,13 @@ if (analisis == "1"):
     '''
     GRAFICAS
     '''
-    #fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 10))
-    #fig.subplots_adjust(hspace=0.05, wspace=0.05)
+
+    #### TEMPERATURAS
 
 
-    #fig, ax = plt.subplots(nrows=2,ncols=2)
-
-    #plt.subplot(2,2,1)
-    #plt.plot(temperatura_max, temperatura_max)
 
 
-    #plt.show()
-
-    # Viento
-
+    #### VIENTO
     ## Discretizamos el conjunto de valores en n intervalos,
     ## en este caso 8 intervalos
     datosbin = np.histogram(frame_vento_dir, bins = np.linspace(np.min(frame_vento_dir), np.max(frame_vento_dir), 9))[0]
