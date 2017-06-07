@@ -33,7 +33,7 @@ payload = {"api_key":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWd1ZWxvdXZpbmhhQGdtYWlsL
 
 response = requests.request("GET", url, params=querystring, verify=False)
 
-#print(response.text)
+print(response.text)
 
 cont = json.loads(response.text)
 
@@ -45,11 +45,11 @@ url_2 = cont['datos']
 
 r = requests.request("GET", url_2, verify=False)
 
-#print(r.text)
+print(r.text)
 
 datos = json.loads(r.text)
 
-#print(datos)
+print(datos)
 
 
 
@@ -57,14 +57,19 @@ datos = json.loads(r.text)
 EMPEZAMOS EL ANALISIS DE PANDAS
 """
 
-# como datos es una lista tenemos que acceder a los 12 elementos (meses) 
+# como datos es una lista tenemos que acceder a los 12 elementos (meses)
+
+indice = {'0':'Enero', '1':'Febrero', '2':'Marzo', '3':'Abril', '4':'Mayo', '5':'Junio',
+		  '6':'Julio', '7':'Agosto', '8':'Septiembre', '9':'Octubre', '10':'Noviembre', '11':'Diciembre'}
 
 
 campos = [ 'ta_max', 'ta_min', 'fecha', 'indicativo']
 
-
-
 frame = pd.DataFrame( datos, columns = campos)
+
+camposP = ['p_mes', 'fecha']
+
+frameP = pd.DataFrame(datos, columns = camposP)
 
 print("Estos son los datos con los que se van a construir las graficas")
 print(frame)
@@ -88,17 +93,31 @@ print(temperatura_min)
 fechas = frame.fecha.map(lambda x: x.replace('-', ',')).map(lambda x: x.split(',')).map(lambda x: x[1])
 print(fechas)
 
+framePrecipitacion = frameP.p_mes.map(lambda x: float(x))
+
 data = { 'temp_max': temperatura_max,
 		 'temp_min': temperatura_min }
 
 framefinal = pd.DataFrame(data)#, index = ['1','2','3','4','5','6','7','8','9','10','11','12','13'])
 print("******************************************************")
-print(framefinal)
+frameTemperatura = framefinal.iloc[0:12]
+# Cambiamos los inidces numericos por el nombre de los meses del año
+frameTemperatura.rename(index = indice, inplace = True)
+print(frameTemperatura)
 
 
 # DIBUJAMOS LA FUCK GRAFICA
 
-framefinal.plot()
+# FRame temeperaturas
+frameTemperatura.plot()
+
+# Mostramos en pantalla
+plt.show()
+
+# Frame Precipitaciones
+frame_P =framePrecipitacion.iloc[0:12]
+frame_P.rename(index = indice, inplace = True)
+frame_P.plot(kind='bar', color='blue', alpha=0.7 )
 # Mostramos en pantalla
 plt.show()
 
@@ -182,5 +201,3 @@ print("FINNNNNNNNN!!!!!!!!!!!!!!!")
 """
 	********************************** EJEMPLO QUE VA A SER INCORPORADO YA A LA WEB  ******************************************************
 """
-
-
