@@ -64,8 +64,15 @@ def formulario(request):
             peticion3 = requests.get(url, parametros3)
             # Obtenemos la respuesta
             #respuesta3 = json.loads(peticion3.text)
-            return render(request, 'consulta/resultado/imprimir.html', {'variables':variables, 'respuesta3': peticion3.content, 'lugar': lugar,
-                                                                        'hora_actual': hora_actual, 'hora_siguiente':hora_siguiente, 'dias':horas, 'Variables':variables_posibles})
+            return render(request, 'consulta/resultado/imprimir.html', {'variables': variables,
+                                                                        'respuesta3': peticion3.content,
+                                                                        'lugar': lugar,
+                                                                        'hora_actual': hora_actual,
+                                                                        'hora_siguiente': hora_siguiente,
+                                                                        'dias': horas,
+                                                                        'Variables': variables_posibles,
+                                                                        'latitud':latitud,
+                                                                        'longitud': longitud})
 
     return render(request,'consulta/formulario/form.html', {'form':form})
 

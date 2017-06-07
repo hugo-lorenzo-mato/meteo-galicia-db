@@ -25,7 +25,7 @@ SECRET_KEY = 'gygw6yv-9hw2=$iskk82u(+x8av)d$m9pp)wxdga_d&q%%k1-0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -152,7 +152,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Claves para Facebook
+
 SOCIAL_AUTH_FACEBOOK_KEY = '394095107651835'
 SOCIAL_AUTH_FACEBOOK_SECRET = '4c2b5bdd6a4b8b25acc7c109c613b108'
 LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
+
+# Claves para Twitter
+
+SOCIAL_AUTH_TWITTER_KEY = 'is230BmwdlgLlfqPhTJ5Bi5Kt'
+SOCIAL_AUTH_TWITTER_SECRET = 'qLX5xHBV6qpuPVhg0HJKPVsW6MZlnSdWEuOuwfHRnnmGe5Rgis'
