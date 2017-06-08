@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+
 """
 eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWd1ZWxvdXZpbmhhQGdtYWlsLmNvbSIsImp0aSI6ImY2MGY2ZTdhLTcxMmMtNDY0ZS05YTlmLTYzNWUyYjgyNThlYSIsImV4cCI6MTQ5OTE2MjExNiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE0OTEzODYxMTYsInVzZXJJZCI6ImY2MGY2ZTdhLTcxMmMtNDY0ZS05YTlmLTYzNWUyYjgyNThlYSIsInJvbGUiOiIifQ.w0OazTbsiZdI5YQXCMIRnny_f0TwWF7leFvik1WeA8s
 """
+
 
 import requests
 import json
@@ -14,10 +17,10 @@ import math
 querystring = {"api_key":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWd1ZWxvdXZpbmhhQGdtYWlsLmNvbSIsImp0aSI6ImY2MGY2ZTdhLTcxMmMtNDY0ZS05YTlmLTYzNWUyYjgyNThlYSIsImV4cCI6MTQ5OTE2MjExNiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE0OTEzODYxMTYsInVzZXJJZCI6ImY2MGY2ZTdhLTcxMmMtNDY0ZS05YTlmLTYzNWUyYjgyNThlYSIsInJvbGUiOiIifQ.w0OazTbsiZdI5YQXCMIRnny_f0TwWF7leFvik1WeA8s"}
 
 # Pedimos los datos al ususario
-# Con esto pedimos el idema directamente, pero sería deseable pedir lugar y buscar nosotros el idema
+# Con esto pedimos el idema directamente, pero seria deseable pedir lugar y buscar nosotros el idema
 print("Inserte el lugar del que quiera obtener los datos: \n")
 print(" Provincia ------------ Estacion ------------- Idema ")
-print(" A Coruña       A Coruña (Estación completa)   1387")
+print(" A Coruña       A Coruña (Estacion completa)   1387")
 print(" A Coruña         A Coruña (Aeroporto)         1387E")
 print(" A Coruña  Santiago de Compostela (Labacolla)  1428")
 print(" A Coruña             Cabo Vilán               1393")
@@ -31,7 +34,7 @@ idema = str(input())
 analisis = input("Desea un analisis mensual/anual (1) o diario (2): \n")
 
 # Anuales
-if (analisis == "1"):
+if (analisis == int("1")):
     anho = str(input("De que año desea hacer la comparacion de datos (1931 - 2016): \n"))
     url = "https://opendata.aemet.es/opendata/api/valores/climatologicos/mensualesanuales/datos/anioini/" + anho + "/aniofin/" + anho + "/estacion/" + idema
     response = requests.request("GET" , url ,params = querystring, verify = False)
