@@ -7,6 +7,12 @@ body {
   background: #eafaff;
 }
 
+
+.cuadros{
+  display: flex;
+}
+
+
 .bienvenida p{
   display: inline-block;
   margin-right: 2%;
