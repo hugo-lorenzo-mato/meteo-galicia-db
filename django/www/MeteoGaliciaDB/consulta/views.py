@@ -44,6 +44,10 @@ import PIL.Image
 import io
 from io import *
 
+# DataFrame
+import pandas as pd
+from pandas import DataFrame, Series
+
 
 @login_required(login_url='/registro/acceso')
 def formulario(request):
@@ -97,6 +101,109 @@ def formulario(request):
                            'format':'text/html', 'endTime':hora_siguiente, 'lang':"es"}
             # Enviamos la peticion
             peticion3 = requests.get(url, parametros3)
+
+            # Peticion a la API de aemet
+            # API_KEY
+            querystring = {"api_key":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWd1ZWxvdXZpbmhhQGdtYWlsLmNvbSIsImp0aSI6ImY2MGY2ZTdhLTcxMmMtNDY0ZS05YTlmLTYzNWUyYjgyNThlYSIsImV4cCI6MTQ5OTE2MjExNiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE0OTEzODYxMTYsInVzZXJJZCI6ImY2MGY2ZTdhLTcxMmMtNDY0ZS05YTlmLTYzNWUyYjgyNThlYSIsInJvbGUiOiIifQ.w0OazTbsiZdI5YQXCMIRnny_f0TwWF7leFvik1WeA8s"}
+
+
+            # Esto debemos obtenerlo del formulario
+            idema = "1387"
+            anho = "2006"
+
+            url = "https://opendata.aemet.es/opendata/api/valores/climatologicos/mensualesanuales/datos/anioini/" + anho + "/aniofin/" + anho + "/estacion/" + idema
+            response = requests.request("GET" , url ,params = querystring, verify = False)
+
+            cont = json.loads(response.text)
+            cont = cont['datos']
+
+            # Obtenemos los datos que nos interesan y los pasamos a formato json
+            response = requests.request("GET", cont, verify = False)
+            datos = json.loads(response.text)
+
+            """
+            ANALISIS DE DATOS CON PANDAS
+            """
+            # Indices de los DataFrames
+            temperaturas = [ 'tm_mes', 'ta_max', 'ta_min', 'fecha', 'indicativo']
+            estado_ceo = ['n_cub', 'n_des', 'n_nub']
+            precipitacions = ['p_mes']
+            vento = ['w_med', 'w_racha']
+            humedad = ['hr']
+            cota_nieve = ['n_nie', 'n_gra']
+            cols = [ 'tm_mes', 'ta_max', 'ta_min', 'fecha', 'indicativo', 'n_cub', 'n_des', 'n_nub', 'p_mes',
+            'w_med', 'w_racha', 'hr', 'n_nie', 'n_gra']
+            indice = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Resumen']
+
+            '''
+            TEMPERATURAS
+            '''
+            # Creamos el DataFrame
+            frame_tem = DataFrame(datos, columns = temperaturas, index = indice)
+            # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
+            frame_tem = frame_tem.iloc[0:12]
+
+            #Procedemos a limpiar las filas del DataFrame
+            temperatura_max = frame_tem.ta_max.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')).map(lambda x: x[0]).map(lambda x: float(x))
+            temperatura_min = frame_tem.ta_min.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')).map(lambda x: x[0]).map(lambda x: float(x))
+            temperatura_media = frame_tem.tm_mes
+            temperatura_fechas = frame_tem.fecha.map(lambda x: x.replace('-', ',')).map(lambda x: x.split(',')).map(lambda x: x[1])
+
+            data = { 'Temperatura Maxima' : temperatura_max,
+                     'Temperatura Media' : temperatura_media,
+                     'Temperatura Minima' : temperatura_min }
+
+            # Frame con los datos finales
+            finalTemperatura = DataFrame(data)
+
+            '''
+            PRECIPITACIONES
+            '''
+            frame_pre = DataFrame(datos, columns = precipitacions, index = indice)
+            # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
+            frame_pre = frame_pre.iloc[0:12]
+            frame_pre = frame_pre.p_mes.map(lambda x: float(x))
+
+
+            '''
+            VENTO
+            '''
+            frame_vento = DataFrame(datos, columns = vento, index = indice)
+            # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
+            frame_vento = frame_vento.iloc[0:12]
+
+            # Limpiamos datos y obtenemos los grados completos del resultada
+            frame_vento_dir = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[0]).map(lambda x: float(x)) * 10
+            # Limpiamos datos y pasamos a kilometros por hora
+            frame_vento_vel = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[1]).map(lambda x: float(x)) / 1000 * 3600
+
+            '''
+            HUMEDAD
+            '''
+            frame_hm = DataFrame(datos, columns = humedad, index = indice)
+            # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
+            frame_hm = frame_hm.iloc[0:12]
+
+
+            '''
+            GRAFICAS
+            '''
+
+            if ( grafica == "histogramaTemperaturas"):
+                finalTemperatura.plot()
+                plt.title("Gráfica de Temperaturas año: " + anho)
+                plt.xlabel("Mes")
+                plt.ylabel("Grados Celsius")
+                plt.savefig("histogramaTemperaturas.png")
+
+            elif( grafica == "tablaPrecipitaciones"):
+                pass
+            elif( grafica == "rosaVientos"):
+                pass
+
+
+
             return render(request, 'consulta/resultado/imprimir.html', {'variables': variables,
                                                                         'respuesta3': peticion3.content,
                                                                         'lugar': lugar,

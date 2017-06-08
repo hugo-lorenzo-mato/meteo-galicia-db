@@ -31,10 +31,10 @@ print(" Pontevedra           Vigo (Peinador)          1495")
 idema = str(input())
 
 
-analisis = input("Desea un analisis mensual/anual (1) o diario (2): \n")
+analisis = str(input("Desea un analisis mensual/anual (1) o diario (2): \n"))
 
 # Anuales
-if (analisis == int("1")):
+if (analisis == "1"):
     anho = str(input("De que año desea hacer la comparacion de datos (1931 - 2016): \n"))
     url = "https://opendata.aemet.es/opendata/api/valores/climatologicos/mensualesanuales/datos/anioini/" + anho + "/aniofin/" + anho + "/estacion/" + idema
     response = requests.request("GET" , url ,params = querystring, verify = False)
@@ -159,11 +159,13 @@ if (analisis == int("1")):
 
     #### TEMPERATURAS
     finalTemperatura.plot()
-    plt.show()
+    plt.title("Gráfica de Temperaturas año: " + anho)
+    plt.xlabel("Mes")
+    plt.ylabel("Grados Celsius")
+    plt.savefig("grafica.png")
 
     #### RECIPITACIONES
-    frame_pre.plot()
-    plt.show()
+
 
 
 
