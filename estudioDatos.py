@@ -111,6 +111,7 @@ if (analisis == "1"):
     frame_pre = DataFrame(datos, columns = precipitacions, index = indice)
     # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
     frame_pre = frame_pre.iloc[0:12]
+    frame_pre = frame_pre.p_mes.map(lambda x: float(x))
     print(frame_pre)
 
     '''
@@ -154,7 +155,12 @@ if (analisis == "1"):
     '''
 
     #### TEMPERATURAS
+    finalTemperatura.plot()
+    plt.show()
 
+    #### RECIPITACIONES
+    frame_pre.plot()
+    plt.show()
 
 
 
