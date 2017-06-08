@@ -10,10 +10,21 @@
     <BR>
 
     <BR>
-    if the_div:
-        {{ the_div|safe }}
-        {{ the_script|safe }}
+    <div class="cuadros">
+        <div class="chart">
+            {% if grafica == "tablaPrecipitaciones" %}
+                <img src="/consulta/grafico/simple.png">
+            {% elif grafica == "rosaVientos"   %}
+                <h3>Ouviña gay, no hay rosaVientos aún, ya te molaría</h3>
+            {% endif %}
 
+        </div>
+
+        <div class="map">
+            <iframe width="600" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q={{ latitud                                 }},{{ longitud }}&hl=es;z=19;t=h&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?q={{ latitud }},{{                             longitud }}&hl=es;z=7;t=h&amp;output=embed" style="color:#0000FF;text-align:left" target="_blank">See map bigger</a></small>
+
+        </div>
+    </div>
 {% endblock %}
 
 

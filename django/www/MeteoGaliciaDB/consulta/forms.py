@@ -19,6 +19,13 @@ opciones_meteosix = (
 
 )
 
+
+tiposGraficas = (
+    ('histogramaTemperaturas', 'Histograma temperaturas'),
+    ('rosaVientos', 'Rosa de los vientos'),
+    ('tablaPrecipitaciones', 'Tabla Precipitaciones'),
+)
+
 class FormRequest(forms.Form):
     anhos = ('5 años atrás', '10 años atrás', '15 años atrás', '20 años atrás', '25 años atrás', '30 años atrás' \
                  , '40 años atrás','50 años atrás')
@@ -30,7 +37,7 @@ class FormRequest(forms.Form):
                                           widget=widgets.CheckboxSelectMultiple(),
                                           #initial=[variable[0] for variable in opciones_meteosix]
                                           )
-
+    Grafica = forms.TypedChoiceField(widget=forms.Select, choices=tiposGraficas)
     '''
     seleccione_mes_dia_y_años_atrás = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Seleccione año", "Seleccione mes", "Seleccione día"), years=anhos))
     e = forms.CheckboxInput

@@ -54,6 +54,7 @@ def formulario(request):
             lugar = form.cleaned_data['Lugar']
             horas = form.cleaned_data['Prediccion']
             variables_posibles = form.cleaned_data['Variables']
+            grafica = form.cleaned_data['Grafica']
             variables = ",".join(str(x) for x in variables_posibles)
             # Preparamos los datos de la petición
             api_code = 'tcZwyEj10Lb5W11usQMSM52QIlCutCCI64LfHv8AeuJsp9aE1F16tsn4yvdK0R52'
@@ -104,7 +105,8 @@ def formulario(request):
                                                                         'dias': horas,
                                                                         'Variables': variables_posibles,
                                                                         'latitud':latitud,
-                                                                        'longitud': longitud,})
+                                                                        'longitud': longitud,
+                                                                        'grafica':grafica})
 
     return render(request,'consulta/formulario/form.html', {'form': form})
 
@@ -161,8 +163,7 @@ def rosaVientos(request):
     datos = np.random.randn(1000)
     ## Discretizamos el conjunto de valores en n intervalos,
     ## en este caso 8 intervalos
-    datosbin = np.histogram(datos,
-                            bins=np.linspace(np.min(datos), np.max(datos), 9))[0]
+    datosbin = np.histogram(datos, bins=np.linspace(np.min(datos), np.max(datos), 9))[0]
     ## Los datos los queremos en tanto por ciento
     datosbin = datosbin * 100. / len(datos)
     ## Los datos los queremos en n direcciones/secciones/sectores,
@@ -175,11 +176,7 @@ def rosaVientos(request):
             facecolor='b', edgecolor='k', linewidth=2, alpha=0.5)
     plt.thetagrids(np.arange(0, 360, 45), nombresect, frac=1.1, fontsize=10)
     plt.title(u'Procedencia de las nubes en marzo')
-    plt.show()
-
-
-
-
+    #plt.show()
 
     canvas = FigureCanvas(fig)
     response = django.http.HttpResponse(content_type='image/png')
