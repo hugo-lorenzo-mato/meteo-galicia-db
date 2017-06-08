@@ -1,51 +1,17 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 import json
 import requests
 from . import forms
 from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 
-#Para imprimir el plot
-from matplotlib import pylab
+
+
 from pylab import *
-import PIL
-import PIL.Image
-import io
-from io import *
 
-
-import math
-## De librerías de terceros
-import numpy as np
-import matplotlib.pyplot as plt
-
-# bokeh
-
-from bokeh.plotting import figure
-from bokeh.resources import CDN
-from bokeh.embed import components
-from bokeh.models import Range1d
-from bokeh.charts import color, marker
-
-
-
-import matplotlib
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-from matplotlib.dates import DateFormatter
-
-
-from django.shortcuts import render
-from matplotlib import pylab
-from pylab import *
-import PIL
-import PIL.Image
-import io
-from io import *
 
 # DataFrame
-import pandas as pd
 from pandas import DataFrame, Series
 
 
@@ -60,6 +26,8 @@ def formulario(request):
             variables_posibles = form.cleaned_data['Variables']
             grafica = form.cleaned_data['Grafica']
             variables = ",".join(str(x) for x in variables_posibles)
+            año = form.cleaned_data['Año']
+            estacion = form.cleaned_data['Estacion_meteorológica']
             # Preparamos los datos de la petición
             api_code = 'tcZwyEj10Lb5W11usQMSM52QIlCutCCI64LfHv8AeuJsp9aE1F16tsn4yvdK0R52'
             '''
@@ -108,11 +76,11 @@ def formulario(request):
 
 
             # Esto debemos obtenerlo del formulario
-            idema = "1387"
-            anho = "2006"
+            idema = estacion
+            anho = año
 
             url = "https://opendata.aemet.es/opendata/api/valores/climatologicos/mensualesanuales/datos/anioini/" + anho + "/aniofin/" + anho + "/estacion/" + idema
-            response = requests.request("GET" , url ,params = querystring, verify = False)
+            response = requests.request("GET", url, params=querystring, verify=False)
 
             cont = json.loads(response.text)
             cont = cont['datos']
@@ -132,9 +100,9 @@ def formulario(request):
             humedad = ['hr']
             cota_nieve = ['n_nie', 'n_gra']
             cols = [ 'tm_mes', 'ta_max', 'ta_min', 'fecha', 'indicativo', 'n_cub', 'n_des', 'n_nub', 'p_mes',
-            'w_med', 'w_racha', 'hr', 'n_nie', 'n_gra']
+                     'w_med', 'w_racha', 'hr', 'n_nie', 'n_gra']
             indice = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Resumen']
+                      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Resumen']
 
             '''
             TEMPERATURAS
@@ -195,12 +163,29 @@ def formulario(request):
                 plt.title("Gráfica de Temperaturas año: " + anho)
                 plt.xlabel("Mes")
                 plt.ylabel("Grados Celsius")
-                plt.savefig("histogramaTemperaturas.png")
-
+                plt.savefig('/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/histogramaTemperaturas.png')
             elif( grafica == "tablaPrecipitaciones"):
                 pass
             elif( grafica == "rosaVientos"):
-                pass
+                ## Creamos un conjunto de 1000 datos entre 0 y 1 de forma aleatoria
+                ## a partir de una distribución estándar normal
+                datos = np.random.randn(1000)
+                ## Discretizamos el conjunto de valores en n intervalos,
+                ## en este caso 8 intervalos
+                datosbin = np.histogram(datos, bins=np.linspace(np.min(datos), np.max(datos), 9))[0]
+                ## Los datos los queremos en tanto por ciento
+                datosbin = datosbin * 100. / len(datos)
+                ## Los datos los queremos en n direcciones/secciones/sectores,
+                ## en este caso usamos 8 sectores de una circunferencia
+                sect = np.array([90, 45, 0, 315, 270, 225, 180, 135]) * 2. * math.pi / 360.
+                nombresect = ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE']
+                ## Dibujamos la rosa de frecuencias
+                plt.axes([0.1, 0.1, 0.8, 0.8], polar=True)
+                plt.bar(sect, datosbin, align='center', width=45 * 2 * math.pi / 360.,
+                        facecolor='b', edgecolor='k', linewidth=2, alpha=0.5)
+                plt.thetagrids(np.arange(0, 360, 45), nombresect, frac=1.1, fontsize=10)
+                plt.title(u'Procedencia de las nubes en marzo')
+                plt.savefig('/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/rosavientos.png')
 
 
 
@@ -220,7 +205,7 @@ def formulario(request):
 
 
 '''
-Lo estoy llamando desde el método formulario de arriba
+Lo llamo directamente desde el template
 '''
 def simple(request):
     import random

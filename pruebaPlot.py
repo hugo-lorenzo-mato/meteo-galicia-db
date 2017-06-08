@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import NullFormatter
-
+'''
 # the random data
 x = np.random.randn(1000)
 y = np.random.randn(1000)
@@ -47,3 +47,14 @@ axHistx.set_xlim(axScatter.get_xlim())
 axHisty.set_ylim(axScatter.get_ylim())
 
 plt.show()
+
+'''
+
+i = 1950
+
+while i != 2018:
+    print("('" + str(i) + "' ," + "'" + str(i) + "'),")
+    i+=1
+
+
+('snow_level', 'Cota de nieve'),
