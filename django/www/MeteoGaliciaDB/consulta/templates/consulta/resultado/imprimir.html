@@ -12,7 +12,12 @@
     <BR>
     <div class="cuadros">
         <div class="chart">
-            <img src="/consulta/grafico/simple.png">
+            {% if grafica == "tablaPrecipitaciones" %}
+                <img src="/consulta/grafico/simple.png">
+            {% elif grafica == "rosaVientos"   %}
+                <h3>Ouviña gay, no hay rosaVientos aún, ya te molaría</h3>
+            {% endif %}
+
         </div>
 
         <div class="map">

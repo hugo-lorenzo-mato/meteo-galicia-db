@@ -54,6 +54,7 @@ def formulario(request):
             lugar = form.cleaned_data['Lugar']
             horas = form.cleaned_data['Prediccion']
             variables_posibles = form.cleaned_data['Variables']
+            grafica = form.cleaned_data['Grafica']
             variables = ",".join(str(x) for x in variables_posibles)
             # Preparamos los datos de la petición
             api_code = 'tcZwyEj10Lb5W11usQMSM52QIlCutCCI64LfHv8AeuJsp9aE1F16tsn4yvdK0R52'
@@ -104,7 +105,8 @@ def formulario(request):
                                                                         'dias': horas,
                                                                         'Variables': variables_posibles,
                                                                         'latitud':latitud,
-                                                                        'longitud': longitud,})
+                                                                        'longitud': longitud,
+                                                                        'grafica':grafica})
 
     return render(request,'consulta/formulario/form.html', {'form': form})
 
