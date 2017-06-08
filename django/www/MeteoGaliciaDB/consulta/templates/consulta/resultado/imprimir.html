@@ -8,32 +8,24 @@
     <BR>
     {% autoescape off %}{{ respuesta3 }}{% endautoescape %}
     <BR>
-    <div>
-<!--        <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=A Coruña, ES, &t=&z=14&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"> -->
-<!--        <iframe width="600" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q={{ latitud }},{{ longitud }}&hl=es;z=19;t=h&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?q={{ latitud }},{{ longitud }}&hl=es;z=7;t=h&amp;output=embed" style="color:#0000FF;text-align:left" target="_blank">See map bigger</a></small> -->
-            <iframe width="600" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/place/{{ lugar }},+Spain&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?q={{ latitud }},{{ longitud }}&hl=es;z=7;t=h&amp;output=embed" style="color:#0000FF;text-align:left" target="_blank">See map bigger</a></small>
 
-
-    </div>
     <BR>
-
+    if the_div:
+        {{ the_div|safe }}
+        {{ the_script|safe }}
 
 {% endblock %}
+
 
 
 <!--
 
     <div>
-        <div class="mapouter">
-            <div class="gmap_canvas">
-                <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=A Coruña, ES, &t=&z=14&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
-                <iframe width="600" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q='{{ latitud }}','{{ longitud }}'&hl=es;z=14&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?q='+data.lat+','+data.lon+'&hl=es;z=14&amp;output=embed" style="color:#0000FF;text-align:left" target="_blank">See map bigger</a></small>
-                </iframe>
-                <a href="https://wpicus.com">blog by wpicus</a>
-            </div>
-            <style>.mapouter{overflow:hidden;height:500px;width:600px;}.gmap_canvas {background:none!important;height:500px;width:600px;}
-            </style>
-        </div>
+       <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=A Coruña, ES, &t=&z=14&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+        <iframe width="600" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q={{ latitud }},{{ longitud }}&hl=es;z=19;t=h&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?q={{ latitud }},{{ longitud }}&hl=es;z=7;t=h&amp;output=embed" style="color:#0000FF;text-align:left" target="_blank">See map bigger</a></small>
+            <iframe width="600" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/place/{{ lugar }},+Spain&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?q={{ latitud }},{{ longitud }}&hl=es;z=7;t=h&amp;output=embed" style="color:#0000FF;text-align:left" target="_blank">See map bigger</a></small>
+
+
     </div>
 
 -->
