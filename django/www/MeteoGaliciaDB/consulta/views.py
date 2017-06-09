@@ -6,11 +6,19 @@ from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 from pylab import *
 from pandas import DataFrame
+import string
+import random
 
 
 key_meteosix = 'tcZwyEj10Lb5W11usQMSM52QIlCutCCI64LfHv8AeuJsp9aE1F16tsn4yvdK0R52'
 
 key_aemet = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWd1ZWxvdXZpbmhhQGdtYWlsLmNvbSIsImp0aSI6ImY2MGY2ZTdhLTcxMmMtNDY0ZS05YTlmLTYzNWUyYjgyNThlYSIsImV4cCI6MTQ5OTE2MjExNiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE0OTEzODYxMTYsInVzZXJJZCI6ImY2MGY2ZTdhLTcxMmMtNDY0ZS05YTlmLTYzNWUyYjgyNThlYSIsInJvbGUiOiIifQ.w0OazTbsiZdI5YQXCMIRnny_f0TwWF7leFvik1WeA8s"
+
+
+
+
+def generador_nombre(size=10, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 
 @login_required(login_url='/registro/acceso')
@@ -87,6 +95,7 @@ def formulario(request):
             Gráficas
             ##########################################################
             '''
+            nombre_png = generador_nombre()
             if ( tipoGrafica == "histogramaTemperaturas"):
                 '''
                 TEMPERATURAS
@@ -113,7 +122,8 @@ def formulario(request):
                 plt.title("Gráfica de Temperaturas año: " + año)
                 plt.xlabel("Mes")
                 plt.ylabel("Grados Celsius")
-                plt.savefig('/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/histogramaTemperaturas.png')
+                plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                plt.close()
             elif( tipoGrafica == "tablaPrecipitaciones"):
                 '''
                 PRECIPITACIONES
@@ -156,11 +166,15 @@ def formulario(request):
                         facecolor='b', edgecolor='k', linewidth=2, alpha=0.5)
                 plt.thetagrids(np.arange(0, 360, 45), nombresect, frac=1.1, fontsize=10)
                 plt.title(u'Procedencia de las nubes en marzo')
-                plt.savefig('/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/pngrosavientos.png')
+                plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/"
+                            "consulta/imagenes/" + nombre_png + ".png")
+
+                plt.close()
             return render(request, 'consulta/resultado/imprimir.html', {'lugar': lugar,
                                                                         'respuesta3': peticion3.content,
                                                                         'Variables': variables_posibles,
                                                                         'grafica':tipoGrafica,
                                                                         'latitud': latitud,
-                                                                        'longitud': longitud, })
+                                                                        'longitud': longitud,
+                                                                        'nombre_png': nombre_png})
     return render(request, 'consulta/formulario/form.html', {'form': form})

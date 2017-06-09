@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import NullFormatter
+import string
+import random
 '''
 # the random data
 x = np.random.randn(1000)
@@ -50,11 +52,18 @@ plt.show()
 
 '''
 
-i = 1950
-
-while i != 2018:
-    print("('" + str(i) + "' ," + "'" + str(i) + "'),")
-    i+=1
+def generador_nombre(size=10, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 
-('snow_level', 'Cota de nieve'),
+
+test = generador_nombre()
+
+print(test)
+
+
+nombre_png = generador_nombre()
+ruta_png = "/consulta/imagenes/" + nombre_png + ".png"
+ruta = "/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png"
+ruta_estatica = "<img src = '{% static '/consulta/imagenes/'" + nombre_png + ".png %}'>"
+print(ruta_estatica)

@@ -14,13 +14,16 @@
 
     <BR>
     <div class="cuadros">
-        <div class="chart">
-            {% if grafica == "histogramaTemperaturas" %}
-                <img src="{% static "/consulta/imagenes/histogramaTemperaturas.png" %}">
-            {% elif grafica == "rosaVientos"   %}
-                <img src="{% static "/consulta/imagenes/rosavientos.png" %}">
-            {% endif %}
 
+        <div class="chart">
+            {% with '/consulta/imagenes/'|add:nombre_png|add:'.png' as imagen %}
+
+                {% if grafica == "histogramaTemperaturas" %}
+                    <img src="{% static imagen %}"/>
+                {% elif grafica == "rosaVientos"   %}
+                    <img src="{% static imagen %}"/>
+                {% endif %}
+            {% endwith %}
         </div>
 
         <div class="map">
