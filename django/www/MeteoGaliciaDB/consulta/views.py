@@ -94,79 +94,66 @@ def formulario(request):
             """
             # Indices de los DataFrames
             temperaturas = [ 'tm_mes', 'ta_max', 'ta_min', 'fecha', 'indicativo']
-            estado_ceo = ['n_cub', 'n_des', 'n_nub']
             precipitacions = ['p_mes']
             vento = ['w_med', 'w_racha']
-            humedad = ['hr']
-            cota_nieve = ['n_nie', 'n_gra']
-            cols = [ 'tm_mes', 'ta_max', 'ta_min', 'fecha', 'indicativo', 'n_cub', 'n_des', 'n_nub', 'p_mes',
-                     'w_med', 'w_racha', 'hr', 'n_nie', 'n_gra']
             indice = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
                       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Resumen']
-
-            '''
-            TEMPERATURAS
-            '''
-            # Creamos el DataFrame
-            frame_tem = DataFrame(datos, columns = temperaturas, index = indice)
-            # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
-            frame_tem = frame_tem.iloc[0:12]
-
-            #Procedemos a limpiar las filas del DataFrame
-            temperatura_max = frame_tem.ta_max.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')).map(lambda x: x[0]).map(lambda x: float(x))
-            temperatura_min = frame_tem.ta_min.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')).map(lambda x: x[0]).map(lambda x: float(x))
-            temperatura_media = frame_tem.tm_mes
-            temperatura_fechas = frame_tem.fecha.map(lambda x: x.replace('-', ',')).map(lambda x: x.split(',')).map(lambda x: x[1])
-
-            data = { 'Temperatura Maxima' : temperatura_max,
-                     'Temperatura Media' : temperatura_media,
-                     'Temperatura Minima' : temperatura_min }
-
-            # Frame con los datos finales
-            finalTemperatura = DataFrame(data)
-
-            '''
-            PRECIPITACIONES
-            '''
-            frame_pre = DataFrame(datos, columns = precipitacions, index = indice)
-            # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
-            frame_pre = frame_pre.iloc[0:12]
-            frame_pre = frame_pre.p_mes.map(lambda x: float(x))
-
-
-            '''
-            VENTO
-            '''
-            frame_vento = DataFrame(datos, columns = vento, index = indice)
-            # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
-            frame_vento = frame_vento.iloc[0:12]
-
-            # Limpiamos datos y obtenemos los grados completos del resultada
-            frame_vento_dir = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[0]).map(lambda x: float(x)) * 10
-            # Limpiamos datos y pasamos a kilometros por hora
-            frame_vento_vel = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[1]).map(lambda x: float(x)) / 1000 * 3600
-
-            '''
-            HUMEDAD
-            '''
-            frame_hm = DataFrame(datos, columns = humedad, index = indice)
-            # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
-            frame_hm = frame_hm.iloc[0:12]
-
 
             '''
             GRAFICAS
             '''
 
             if ( grafica == "histogramaTemperaturas"):
+                '''
+                TEMPERATURAS
+                '''
+                # Creamos el DataFrame
+                frame_tem = DataFrame(datos, columns = temperaturas, index = indice)
+                # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
+                frame_tem = frame_tem.iloc[0:12]
+                # Borramos valores nulos
+                frame_tem = frame_tem.dropna()
+                #Procedemos a limpiar las filas del DataFrame
+                temperatura_max = frame_tem.ta_max.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')).map(lambda x: x[0]).map(lambda x: float(x))
+                temperatura_min = frame_tem.ta_min.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')).map(lambda x: x[0]).map(lambda x: float(x))
+                temperatura_media = frame_tem.tm_mes
+                temperatura_fechas = frame_tem.fecha.map(lambda x: x.replace('-', ',')).map(lambda x: x.split(',')).map(lambda x: x[1])
+
+                data = { 'Temperatura Maxima' : temperatura_max,
+                         'Temperatura Media' : temperatura_media,
+                         'Temperatura Minima' : temperatura_min }
+
+                # Frame con los datos finales
+                finalTemperatura = DataFrame(data)
                 finalTemperatura.plot()
                 plt.title("Gráfica de Temperaturas año: " + anho)
                 plt.xlabel("Mes")
                 plt.ylabel("Grados Celsius")
-                plt.savefig('/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/histogramaTemperaturas.png')
+                plt.savefig('/home/user/Escritorio/proyecto pi/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/histogramaTemperaturas.png')
             elif( grafica == "tablaPrecipitaciones"):
-                pass
+                '''
+                PRECIPITACIONES
+                '''
+                frame_pre = DataFrame(datos, columns = precipitacions, index = indice)
+                # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
+                frame_pre = frame_pre.iloc[0:12]
+                # Borramos valores nulos
+                frame_pre = frame_pre.dropna()
+                frame_pre = frame_pre.p_mes.map(lambda x: float(x))
             elif( grafica == "rosaVientos"):
+                '''
+                VENTO
+                '''
+                frame_vento = DataFrame(datos, columns = vento, index = indice)
+                # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
+                frame_vento = frame_vento.iloc[0:12]
+                # Borramos valores nulos
+                frame_vento = frame_vento.dropna()
+                # Limpiamos datos y obtenemos los grados completos del resultada
+                frame_vento_dir = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[0]).map(lambda x: float(x)) * 10
+                # Limpiamos datos y pasamos a kilometros por hora
+                frame_vento_vel = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[1]).map(lambda x: float(x)) / 1000 * 3600
+
                 ## Creamos un conjunto de 1000 datos entre 0 y 1 de forma aleatoria
                 ## a partir de una distribución estándar normal
                 datos = np.random.randn(1000)
@@ -185,7 +172,7 @@ def formulario(request):
                         facecolor='b', edgecolor='k', linewidth=2, alpha=0.5)
                 plt.thetagrids(np.arange(0, 360, 45), nombresect, frac=1.1, fontsize=10)
                 plt.title(u'Procedencia de las nubes en marzo')
-                plt.savefig('/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/rosavientos.png')
+                plt.savefig('/home/user/Escritorio/proyecto pi/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/rosavientos.png')
 
 
 

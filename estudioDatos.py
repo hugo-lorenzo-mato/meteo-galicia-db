@@ -124,6 +124,7 @@ if (analisis == "1"):
     # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
     frame_vento = frame_vento.iloc[0:12]
     print(frame_vento)
+    frame_vento = frame_vento.dropna()
 
     # Limpiamos datos y obtenemos los grados completos del resultada
     frame_vento_dir = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[0]).map(lambda x: float(x)) * 10
