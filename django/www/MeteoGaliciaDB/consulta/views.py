@@ -29,7 +29,7 @@ def formulario(request):
         if form.is_valid():
             '''
             ##########################################################
-            Recuperamos los datos del formulario            
+            Recuperamos los datos del formulario
             ##########################################################
             '''
             lugar = form.cleaned_data['Lugar']
@@ -41,7 +41,7 @@ def formulario(request):
             estacion = form.cleaned_data['Estacion_meteorológica']
             '''
             ##########################################################
-            Preparamos los datos para meteosix            
+            Preparamos los datos para meteosix
             ##########################################################
             '''
             api_code = key_meteosix
@@ -67,7 +67,7 @@ def formulario(request):
             peticion3 = requests.get(url, parametros3)
             '''
             ##########################################################
-            Preparamos los datos para AEMET            
+            Preparamos los datos para AEMET
             ##########################################################
             '''
             querystring = {"api_key": key_aemet}
@@ -80,13 +80,14 @@ def formulario(request):
             datos = json.loads(response.text)
             '''
             ##########################################################
-            Análisis de datos con Pandas            
+            Análisis de datos con Pandas
             ##########################################################
             '''
             # Indices de los DataFrames
             temperaturas = [ 'tm_mes', 'ta_max', 'ta_min', 'fecha', 'indicativo']
             precipitacions = ['p_mes']
             vento = ['w_med', 'w_racha']
+            humedad = ['hr']
             indice = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
                       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Resumen']
 
@@ -122,7 +123,8 @@ def formulario(request):
                 plt.title("Gráfica de Temperaturas año: " + año)
                 plt.xlabel("Mes")
                 plt.ylabel("Grados Celsius")
-                plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                #plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                plt.savefig("/home/user/Escritorio/proyecto pi/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
                 plt.close()
             elif( tipoGrafica == "tablaPrecipitaciones"):
                 '''
@@ -133,7 +135,37 @@ def formulario(request):
                 frame_pre = frame_pre.iloc[0:12]
                 # Borramos valores nulos
                 frame_pre = frame_pre.dropna()
+                # Convertimos los valores en floats
                 frame_pre = frame_pre.p_mes.map(lambda x: float(x))
+                # Frame con los datos finales y plot
+                frame_pre.plot(kind = 'bar', color = 'b')
+                plt.title("Histograma de Precipitaciones año: " + año)
+                plt.xlabel("Mes")
+                plt.ylabel("Litro por m²")
+                #plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                plt.savefig("/home/user/Escritorio/proyecto pi/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                plt.close()
+
+            elif( tipoGrafica == "histogramaHumedad"):
+                '''
+                HUMEDAD RELATIVA
+                '''
+                frame_hm = DataFrame(datos, columns = humedad, index = indice)
+                # Con esto eliminamos la fila resumen que no nos sirve en nustro caso
+                frame_hm = frame_hm.iloc[0:12]
+                # Borramos valores nulos
+                frame_hm = frame_hm.dropna()
+                # Convertimos los valores en floats
+                frame_hm = frame_hm.hr.map(lambda x: float(x))
+                # Frame con los datos finales y plot
+                frame_hm.plot(kind = 'barh', color = 'b')
+                plt.title("Histograma de Humedad Relativa año: " + año)
+                plt.xlabel("(%)")
+                plt.ylabel("Mes")
+                #plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                plt.savefig("/home/user/Escritorio/proyecto pi/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                plt.close()
+
             elif( tipoGrafica == "rosaVientos"):
                 '''
                 VENTO
@@ -148,14 +180,11 @@ def formulario(request):
                 # Limpiamos datos y pasamos a kilometros por hora
                 frame_vento_vel = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[1]).map(lambda x: float(x)) / 1000 * 3600
 
-                ## Creamos un conjunto de 1000 datos entre 0 y 1 de forma aleatoria
-                ## a partir de una distribución estándar normal
-                datos = np.random.randn(1000)
                 ## Discretizamos el conjunto de valores en n intervalos,
                 ## en este caso 8 intervalos
-                datosbin = np.histogram(datos, bins=np.linspace(np.min(datos), np.max(datos), 9))[0]
+                datosbin = np.histogram(frame_vento_dir, bins = np.linspace(np.min(frame_vento_dir), np.max(frame_vento_dir), 9))[0]
                 ## Los datos los queremos en tanto por ciento
-                datosbin = datosbin * 100. / len(datos)
+                datosbin = datosbin * 100. / len(frame_vento_dir)
                 ## Los datos los queremos en n direcciones/secciones/sectores,
                 ## en este caso usamos 8 sectores de una circunferencia
                 sect = np.array([90, 45, 0, 315, 270, 225, 180, 135]) * 2. * math.pi / 360.
@@ -166,9 +195,9 @@ def formulario(request):
                         facecolor='b', edgecolor='k', linewidth=2, alpha=0.5)
                 plt.thetagrids(np.arange(0, 360, 45), nombresect, frac=1.1, fontsize=10)
                 plt.title(u'Procedencia de las nubes en marzo')
-                plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/"
-                            "consulta/imagenes/" + nombre_png + ".png")
-
+                #plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/"
+                #            "consulta/imagenes/" + nombre_png + ".png")
+                plt.savefig("/home/user/Escritorio/proyecto pi/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
                 plt.close()
             return render(request, 'consulta/resultado/imprimir.html', {'lugar': lugar,
                                                                         'respuesta3': peticion3.content,

@@ -105,6 +105,7 @@ tiposGraficas = (
     ('histogramaTemperaturas', 'Histograma temperaturas'),
     ('rosaVientos', 'Rosa de los vientos'),
     ('tablaPrecipitaciones', 'Tabla Precipitaciones'),
+    ('histogramaHumedad', 'Histograma Humedad Relativa')
 )
 
 class FormRequest(forms.Form):
@@ -118,4 +119,3 @@ class FormRequest(forms.Form):
     Grafica = forms.TypedChoiceField(widget=forms.Select, choices=tiposGraficas)
     Año = forms.TypedChoiceField(widget=forms.Select, choices=anhos_selector)
     Estacion_meteorológica = forms.TypedChoiceField(widget=forms.Select, choices=estacion)
-
