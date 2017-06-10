@@ -5,19 +5,36 @@
 {% block content %}
     <br>
     <br>
-    <h4> Cubra el siguiente formulario para obtener los datos:</h4>
+    {% if aviso %}
+        <div class="alert alert-danger">
+            <strong>Atención!</strong>
+            <br>
+            <br>
+            <p>Si no introduce longitud y latitud, debe ingresar un lugar.</p>
+            <p>Puede pulsar sobre "geolocalízame" y le aparecerán de forma automática, pero su explorador de Internet debe ser compatible</p>
+            <p>Por tanto, de no contar con coordenadas, ya sea de forma automática o introducción manual, debe ingresar un lugar</p>
+        </div>
+    {% else %}
+        <h4> Cubra el siguiente formulario para obtener los datos:</h4>
+        <br>
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-info">Seleccione el lugar para el que desea obtener la predicción del tiempo.</li>
+            <li class="list-group-item list-group-item-info">Seleccione el nº de días para la predicción.</li>
+            <li class="list-group-item list-group-item-info">Seleccione las variables del tiempo en las que está interesado.</li>
+            <li class="list-group-item list-group-item-info">Seleccione la gráfica que desea imprimir.</li>
+        </ul>
+    {% endif %}
+    <section>
+        <p>Podemos geolocalizarle si lo desea:</p>
+        <a href="#" id="geolocateMe">Geolocalízame</a>
+        <p id="error"></p>
+    </section>
     <br>
-    <ul class="list-group">
-        <li class="list-group-item list-group-item-info">Seleccione el lugar para el que desea obtener la predicción del tiempo.</li>
-        <li class="list-group-item list-group-item-info">Seleccione el nº de días para la predicción.</li>
-        <li class="list-group-item list-group-item-info">Seleccione las variables del tiempo en las que está interesado.</li>
-        <li class="list-group-item list-group-item-info">Seleccione la gráfica que desea imprimir.</li>
-    </ul>
-    <form style="float: left; display: inline;" method="POST">
+    <form  method="POST">
         {{ form.as_p }}
 
         {% csrf_token  %}
-        <input style="float: left; margin-left: 40%; margin-top: 10%; margin-bottom: 10%; padding: 2% 10%; border-radius: 20px;" type="submit" class="btn btn-primary" value="Enviar">
+        <input type="submit" class="btn btn-primary" value="Enviar">
     </form>
 
 {% endblock %}

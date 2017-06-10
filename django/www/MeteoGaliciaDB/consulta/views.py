@@ -34,23 +34,34 @@ def formulario(request):
             '''
             lugar = form.cleaned_data['Lugar']
             horas = form.cleaned_data['Prediccion']
+            longitud = form.cleaned_data['Longitud']
+            latitud = form.cleaned_data['Latitud']
             variables_posibles = form.cleaned_data['Variables']
             tipoGrafica = form.cleaned_data['Grafica']
             variables = ",".join(str(x) for x in variables_posibles)
             año = form.cleaned_data['Año']
             estacion = form.cleaned_data['Estacion_meteorológica']
+            if ((lugar) or (longitud and latitud)):
+                pass
+            else:
+                aviso = "¡¡¡Debe cubrir latitud y longitud o, de no hacerlo, indicar un lugar válido!!!"
+                return render(request, 'consulta/formulario/form.html', {'form': form, 'aviso': aviso})
             '''
             ##########################################################
             Preparamos los datos para meteosix
             ##########################################################
             '''
-            api_code = key_meteosix
-            parametros = {'location': lugar, 'API_KEY': api_code, 'format': 'application/json'}
-            url = 'http://servizos.meteogalicia.es/apiv3/findPlaces'
-            peticion = requests.get(url, parametros)
-            respuesta = json.loads(peticion.text)
-            longitud = str(respuesta['features'][0]['geometry']['coordinates'][0])
-            latitud = str(respuesta['features'][0]['geometry']['coordinates'][1])
+            if (longitud and latitud):
+                api_code = key_meteosix
+                pass
+            else:
+                api_code = key_meteosix
+                parametros = {'location': lugar, 'API_KEY': api_code, 'format': 'application/json'}
+                url = 'http://servizos.meteogalicia.es/apiv3/findPlaces'
+                peticion = requests.get(url, parametros)
+                respuesta = json.loads(peticion.text)
+                longitud = str(respuesta['features'][0]['geometry']['coordinates'][0])
+                latitud = str(respuesta['features'][0]['geometry']['coordinates'][1])
             '''
             ##########################################################
             Una vez que tenemos las coordenadas obtenemos los datos
@@ -108,10 +119,13 @@ def formulario(request):
                 # Borramos valores nulos
                 frame_tem = frame_tem.dropna()
                 #Procedemos a limpiar las filas del DataFrame
-                temperatura_max = frame_tem.ta_max.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')).map(lambda x: x[0]).map(lambda x: float(x))
-                temperatura_min = frame_tem.ta_min.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')).map(lambda x: x[0]).map(lambda x: float(x))
+                temperatura_max = frame_tem.ta_max.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')). \
+                    map(lambda x: x[0]).map(lambda x: float(x))
+                temperatura_min = frame_tem.ta_min.map(lambda x: x.replace('(', ',')).map(lambda x: x.split(',')). \
+                    map(lambda x: x[0]).map(lambda x: float(x))
                 temperatura_media = frame_tem.tm_mes
-                temperatura_fechas = frame_tem.fecha.map(lambda x: x.replace('-', ',')).map(lambda x: x.split(',')).map(lambda x: x[1])
+                temperatura_fechas = frame_tem.fecha.map(lambda x: x.replace('-', ',')).map(lambda x: x.split(',')). \
+                    map(lambda x: x[1])
 
                 data = { 'Temperatura Maxima' : temperatura_max,
                          'Temperatura Media' : temperatura_media,
@@ -123,8 +137,8 @@ def formulario(request):
                 plt.title("Gráfica de Temperaturas año: " + año)
                 plt.xlabel("Mes")
                 plt.ylabel("Grados Celsius")
-                #plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
-                plt.savefig("/home/user/Escritorio/proyecto pi/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/"
+                            "imagenes/" + nombre_png + ".png")
                 plt.close()
             elif( tipoGrafica == "tablaPrecipitaciones"):
                 '''
@@ -142,8 +156,8 @@ def formulario(request):
                 plt.title("Histograma de Precipitaciones año: " + año)
                 plt.xlabel("Mes")
                 plt.ylabel("Litro por m²")
-                #plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
-                plt.savefig("/home/user/Escritorio/proyecto pi/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/"
+                            "imagenes/" + nombre_png + ".png")
                 plt.close()
 
             elif( tipoGrafica == "histogramaHumedad"):
@@ -162,8 +176,8 @@ def formulario(request):
                 plt.title("Histograma de Humedad Relativa año: " + año)
                 plt.xlabel("(%)")
                 plt.ylabel("Mes")
-                #plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
-                plt.savefig("/home/user/Escritorio/proyecto pi/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/"
+                            "imagenes/" + nombre_png + ".png")
                 plt.close()
 
             elif( tipoGrafica == "rosaVientos"):
@@ -176,9 +190,11 @@ def formulario(request):
                 # Borramos valores nulos
                 frame_vento = frame_vento.dropna()
                 # Limpiamos datos y obtenemos los grados completos del resultada
-                frame_vento_dir = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[0]).map(lambda x: float(x)) * 10
+                frame_vento_dir = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')). \
+                                      map(lambda x: x[0]).map(lambda x: float(x)) * 10
                 # Limpiamos datos y pasamos a kilometros por hora
-                frame_vento_vel = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')).map(lambda x: x[1]).map(lambda x: float(x)) / 1000 * 3600
+                frame_vento_vel = frame_vento.w_racha.map(lambda x: x.replace('(', '/')).map(lambda x: x.split('/')). \
+                                      map(lambda x: x[1]).map(lambda x: float(x)) / 1000 * 3600
 
                 ## Discretizamos el conjunto de valores en n intervalos,
                 ## en este caso 8 intervalos
@@ -195,9 +211,8 @@ def formulario(request):
                         facecolor='b', edgecolor='k', linewidth=2, alpha=0.5)
                 plt.thetagrids(np.arange(0, 360, 45), nombresect, frac=1.1, fontsize=10)
                 plt.title(u'Procedencia de las nubes en marzo')
-                #plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/"
-                #            "consulta/imagenes/" + nombre_png + ".png")
-                plt.savefig("/home/user/Escritorio/proyecto pi/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/"
+                            "imagenes/" + nombre_png + ".png")
                 plt.close()
             return render(request, 'consulta/resultado/imprimir.html', {'lugar': lugar,
                                                                         'respuesta3': peticion3.content,
@@ -206,4 +221,7 @@ def formulario(request):
                                                                         'latitud': latitud,
                                                                         'longitud': longitud,
                                                                         'nombre_png': nombre_png})
+        else:
+            aviso = "¡¡¡Debe cubrir latitud y longitud o, de no hacerlo, indicar un lugar válido!!!"
+            return render(request, 'consulta/formulario/form.html', {'form': form, 'aviso': aviso})
     return render(request, 'consulta/formulario/form.html', {'form': form})

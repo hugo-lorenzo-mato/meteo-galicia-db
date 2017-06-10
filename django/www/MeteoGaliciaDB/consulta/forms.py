@@ -110,11 +110,12 @@ tiposGraficas = (
 
 class FormRequest(forms.Form):
 
-    Lugar = forms.CharField()
+    Lugar = forms.CharField(required=False)
+    Longitud = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'long'}))
+    Latitud = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'lat'}))
     Prediccion = forms.ChoiceField(widget=forms.Select, choices=CHOICES)
     Variables = forms.MultipleChoiceField(choices=opciones_meteosix,
                                           widget=widgets.CheckboxSelectMultiple(),
-                                          #initial=[variable[0] for variable in opciones_meteosix]
                                           )
     Grafica = forms.TypedChoiceField(widget=forms.Select, choices=tiposGraficas)
     Año = forms.TypedChoiceField(widget=forms.Select, choices=anhos_selector)

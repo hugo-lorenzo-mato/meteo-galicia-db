@@ -12,11 +12,42 @@
     <link rel="shortcut icon" type="image/gif" href="{% static 'portada/images/favicon.ico' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'portada/bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'portada/style.css' %}" />
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.js"></script>
-    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <title>{% block title %}{% endblock %}</title>
-
+    <script type="text/javascript">
+        function showPosition(position) {
+            document.querySelector("#long").value = position.coords.latitude;
+            document.querySelector("#lat").value = position.coords.latitude;
+        }
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.querySelector("#error").innerHTML = "Permiso denegado por su explorador, introduzca un lugar";
+                    document.querySelector("#long").value = "Error: inserte un lugar";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.querySelector("#error").innerHTML ="Error: No podemos detectar correctamente su localización, introduzca un lugar";
+                    document.querySelector("#long").value = "Error: inserte un lugar";
+                    break;
+                case error.TIMEOUT:
+                    document.querySelector("#error").innerHTML ="Error: tiempo de espera superado,, introduzca un lugar";
+                    document.querySelector("#long").value = "Error: inserte un lugar";
+                    break;
+            }
+        }
+        var watchId = null;
+        function init() {
+            document.querySelector("#geolocateMe").onclick = function() {
+                if (navigator.geolocation){
+                    navigator.geolocation.getCurrentPosition(showPosition, showError);
+                }
+            }
+        }
+        window.onload = init;
+    </script>
 </head>
+<body>
+
 <div class="container">
     {% include 'consulta/header.html' %}
     <div id="content">
