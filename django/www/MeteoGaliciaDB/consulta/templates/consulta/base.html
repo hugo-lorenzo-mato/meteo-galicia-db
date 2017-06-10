@@ -16,7 +16,7 @@
     <title>{% block title %}{% endblock %}</title>
     <script type="text/javascript">
         function showPosition(position) {
-            document.querySelector("#long").value = position.coords.latitude;
+            document.querySelector("#long").value = position.coords.longitude;
             document.querySelector("#lat").value = position.coords.latitude;
         }
         function showError(error) {
