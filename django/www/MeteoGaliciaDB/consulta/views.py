@@ -210,7 +210,7 @@ def formulario(request):
                 plt.bar(sect, datosbin, align='center', width=45 * 2 * math.pi / 360.,
                         facecolor='b', edgecolor='k', linewidth=2, alpha=0.5)
                 plt.thetagrids(np.arange(0, 360, 45), nombresect, frac=1.1, fontsize=10)
-                plt.title(u'Procedencia de las nubes en marzo')
+                plt.title(u'Procedencia de las rachas de viento más fuertes en el año: '+ año)
                 plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/"
                             "imagenes/" + nombre_png + ".png")
                 plt.close()
