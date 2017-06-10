@@ -1,1 +1,3 @@
-int fileCheck(const char*);
+
+int fileCheck(char *fileName);
+

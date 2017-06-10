@@ -8,7 +8,7 @@ from pylab import *
 from pandas import DataFrame
 import string
 import random
-
+from . import existe
 
 key_meteosix = 'tcZwyEj10Lb5W11usQMSM52QIlCutCCI64LfHv8AeuJsp9aE1F16tsn4yvdK0R52'
 
@@ -103,11 +103,27 @@ def formulario(request):
                       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Resumen']
 
             '''
-            ##########################################################
-            Gráficas
-            ##########################################################
+            #########################################################################
+            Hacemos uso de la librería en C para determinar si existe ese nombre ya
+            #########################################################################
             '''
             nombre_png = generador_nombre()
+            opcion = (
+                "/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+            while True:
+                if existe.fileCheck(opcion):
+                    nombre_png = generador_nombre()
+                    opcion = (
+                        "/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/imagenes/" + nombre_png + ".png")
+                else:
+                    break
+
+            '''
+            ##########################################################
+            Gráficas
+            ##########################################################            
+            '''
+
             if ( tipoGrafica == "histogramaTemperaturas"):
                 '''
                 TEMPERATURAS
