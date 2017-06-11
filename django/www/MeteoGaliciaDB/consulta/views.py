@@ -9,6 +9,7 @@ from pandas import DataFrame
 import string
 import random
 from . import existe
+import operator
 
 key_meteosix = 'tcZwyEj10Lb5W11usQMSM52QIlCutCCI64LfHv8AeuJsp9aE1F16tsn4yvdK0R52'
 
@@ -24,7 +25,17 @@ def generador_nombre(size=10, chars=string.ascii_uppercase + string.digits):
 @login_required(login_url='/registro/acceso')
 def formulario(request):
     form = forms.FormRequest()
-    if request.method == 'POST':
+    if request.method == 'POST' and 'eleccion' in request.POST:
+        coordenadas = request.POST.get('seleccion', None)
+        coordenadas = coordenadas.split()
+        latitud = coordenadas[0]
+        latitud = latitud.replace(',', '')
+        longitud = coordenadas[1].replace(',', '')
+        form2 = forms.FormRequest2()
+        return render(request, 'consulta/formulario/form.html',
+                      {'form2': form2, 'latitud': latitud, 'longitud': longitud})
+
+    elif request.method == 'POST' and 'primero' in request.POST:
         form = forms.FormRequest(request.POST)
         if form.is_valid():
             '''
@@ -33,19 +44,45 @@ def formulario(request):
             ##########################################################
             '''
             lugar = form.cleaned_data['Lugar']
-            horas = form.cleaned_data['Prediccion']
             longitud = form.cleaned_data['Longitud']
             latitud = form.cleaned_data['Latitud']
-            variables_posibles = form.cleaned_data['Variables']
-            tipoGrafica = form.cleaned_data['Grafica']
-            variables = ",".join(str(x) for x in variables_posibles)
-            año = form.cleaned_data['Año']
-            estacion = form.cleaned_data['Estacion_meteorológica']
             if ((lugar) or (longitud and latitud)):
-                pass
+                if lugar:
+                    seleccion_lugar = 1
+                    api_code = key_meteosix
+                    parametros = {'location': lugar, 'API_KEY': api_code, 'format': 'application/json'}
+                    url = 'http://servizos.meteogalicia.es/apiv3/findPlaces'
+                    peticion = requests.get(url, parametros)
+                    respuesta = json.loads(peticion.text)
+                    dic_sitios = dict()
+                    for i in range(len(respuesta['features'])):
+                        dic_sitios[i] = [respuesta['features'][i]['properties']['name'],
+                                         respuesta['features'][i]['properties']['municipality'],
+                                         respuesta['features'][i]['properties']['province'],
+                                         respuesta['features'][i]['geometry']['coordinates'][0],
+                                         respuesta['features'][0]['geometry']['coordinates'][1]
+                                         ]
+                    resultado = sorted(dic_sitios.items(), key=operator.itemgetter(1))
+                    return render(request, 'consulta/formulario/form.html', {'dic_sitios': dic_sitios, 'seleccion_lugar':seleccion_lugar})
             else:
-                aviso = "¡¡¡Debe cubrir latitud y longitud o, de no hacerlo, indicar un lugar válido!!!"
+                aviso = "Debe cubrir latitud y longitud o, de no hacerlo, indicar un lugar válido!!!"
                 return render(request, 'consulta/formulario/form.html', {'form': form, 'aviso': aviso})
+
+        form2 = forms.FormRequest2()
+        return render(request, 'consulta/formulario/form.html', {'form2': form2, 'latitud':latitud, 'longitud':longitud})
+
+    elif request.method == 'POST' and 'segundo' in request.POST:
+        form3 = forms.FormRequest2(request.POST)
+        if form3.is_valid():
+            latitud = request.POST.get('latitud', None)
+            longitud = request.POST.get('longitud', None)
+            horas = form3.cleaned_data['Prediccion']
+            variables_posibles = form3.cleaned_data['Variables']
+            tipoGrafica = form3.cleaned_data['Grafica']
+            variables = ",".join(str(x) for x in variables_posibles)
+            año = form3.cleaned_data['Año']
+            estacion = form3.cleaned_data['Estacion_meteorológica']
+
             '''
             ##########################################################
             Preparamos los datos para meteosix
@@ -53,15 +90,7 @@ def formulario(request):
             '''
             if (longitud and latitud):
                 api_code = key_meteosix
-                pass
-            else:
-                api_code = key_meteosix
-                parametros = {'location': lugar, 'API_KEY': api_code, 'format': 'application/json'}
-                url = 'http://servizos.meteogalicia.es/apiv3/findPlaces'
-                peticion = requests.get(url, parametros)
-                respuesta = json.loads(peticion.text)
-                longitud = str(respuesta['features'][0]['geometry']['coordinates'][0])
-                latitud = str(respuesta['features'][0]['geometry']['coordinates'][1])
+
             '''
             ##########################################################
             Una vez que tenemos las coordenadas obtenemos los datos
@@ -230,14 +259,11 @@ def formulario(request):
                 plt.savefig("/home/hugo/PycharmProjects/pintgrupo16/django/www/MeteoGaliciaDB/consulta/static/consulta/"
                             "imagenes/" + nombre_png + ".png")
                 plt.close()
-            return render(request, 'consulta/resultado/imprimir.html', {'lugar': lugar,
-                                                                        'respuesta3': peticion3.content,
+            return render(request, 'consulta/resultado/imprimir.html', {'respuesta3': peticion3.content,
                                                                         'Variables': variables_posibles,
                                                                         'grafica':tipoGrafica,
                                                                         'latitud': latitud,
                                                                         'longitud': longitud,
                                                                         'nombre_png': nombre_png})
-        else:
-            aviso = "¡¡¡Debe cubrir latitud y longitud o, de no hacerlo, indicar un lugar válido!!!"
-            return render(request, 'consulta/formulario/form.html', {'form': form, 'aviso': aviso})
+
     return render(request, 'consulta/formulario/form.html', {'form': form})

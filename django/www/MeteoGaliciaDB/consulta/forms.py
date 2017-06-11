@@ -113,6 +113,9 @@ class FormRequest(forms.Form):
     Lugar = forms.CharField(required=False)
     Longitud = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'long'}))
     Latitud = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'lat'}))
+
+
+class FormRequest2(forms.Form):
     Prediccion = forms.ChoiceField(widget=forms.Select, choices=CHOICES)
     Variables = forms.MultipleChoiceField(choices=opciones_meteosix,
                                           widget=widgets.CheckboxSelectMultiple(),
@@ -120,3 +123,4 @@ class FormRequest(forms.Form):
     Grafica = forms.TypedChoiceField(widget=forms.Select, choices=tiposGraficas)
     Año = forms.TypedChoiceField(widget=forms.Select, choices=anhos_selector)
     Estacion_meteorológica = forms.TypedChoiceField(widget=forms.Select, choices=estacion)
+

@@ -71,6 +71,39 @@ respuesta = json.loads(peticion.text)
 
 print("La peticion es: " + str(peticion.url))
 
+print(respuesta)
+
+print()
+print()
+
+lista_sitios = dict()
+
+for i in range(len(respuesta['features'])):
+    print()
+    print()
+    lista_sitios[i] = [respuesta['features'][i]['properties']['name'],
+                         respuesta['features'][i]['properties']['municipality'],
+                         respuesta['features'][i]['properties']['province']
+                         ]
+    print(respuesta['features'][i]['properties']['name'],
+
+          respuesta['features'][i]['properties']['municipality'],
+          respuesta['features'][i]['properties']['province'])
+
+    print()
+    print()
+
+print()
+print()
+print("***************** Ahora imprimo el diccionario:")
+i = 0
+for a in lista_sitios.items():
+    print(a)
+
+print()
+print()
+print()
+
 # Obtenemos nuestras coordenadas
 longitud = str(respuesta['features'][0]['geometry']['coordinates'][0])
 latitud = str(respuesta['features'][0]['geometry']['coordinates'][1])

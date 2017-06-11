@@ -5,37 +5,76 @@
 {% block content %}
     <br>
     <br>
-    {% if aviso %}
-        <div class="alert alert-danger">
-            <strong>Atención!</strong>
-            <br>
-            <br>
-            <p>Si no introduce longitud y latitud, debe ingresar un lugar.</p>
-            <p>Puede pulsar sobre "geolocalízame" y le aparecerán de forma automática, pero su explorador de Internet debe ser compatible</p>
-            <p>Por tanto, de no contar con coordenadas, ya sea de forma automática o introducción manual, debe ingresar un lugar</p>
-        </div>
-    {% else %}
-        <h4> Cubra el siguiente formulario para obtener los datos:</h4>
-        <br>
-        <ul class="list-group">
-            <li class="list-group-item list-group-item-info">Seleccione el lugar para el que desea obtener la predicción del tiempo.</li>
-            <li class="list-group-item list-group-item-info">Seleccione el nº de días para la predicción.</li>
-            <li class="list-group-item list-group-item-info">Seleccione las variables del tiempo en las que está interesado.</li>
-            <li class="list-group-item list-group-item-info">Seleccione la gráfica que desea imprimir.</li>
-        </ul>
-    {% endif %}
-    <section>
-        <p>Podemos geolocalizarle si lo desea:</p>
-        <a href="#" id="geolocateMe">Geolocalízame</a>
-        <p id="error"></p>
-    </section>
-    <br>
-    <form  method="POST">
-        {{ form.as_p }}
+    {% if seleccion_lugar %}
+        <form  method="POST">
+            <div class="form-group">
+                <select title="seleccion" class="form-control" id="seleccion" name="seleccion">
+                    {% for nombre,municipio,provincia,longitud,latitud in dic_sitios.values %}
 
-        {% csrf_token  %}
-        <input type="submit" class="btn btn-primary" value="Enviar">
-    </form>
+                        <option value="{{ latitud }}, {{ longitud }}">{{ nombre }}:{{ municipio }}, {{ provincia }}</option>>
+
+                    {% endfor %}
+                </select>
+            </div>
+            {% csrf_token  %}
+            <input type="submit" class="btn btn-primary" name="eleccion">
+        </form>
+
+
+    {% else %}
+        {% if form2 %}
+            <h4> Seleccione las variables que desee:</h4>
+            <br>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-info">Seleccione las variables para las coordenadas: {{ latitud }} , {{ longitud }}</li>
+            </ul>
+            <form  method="POST">
+                {{ form2.as_p }}
+
+                {% csrf_token  %}
+                <input type="hidden" value="{{ latitud }}" name="latitud" />
+                <input type="hidden" value="{{ longitud }}" name="longitud" />
+                <input type="submit" class="btn btn-primary" name="segundo">
+            </form>
+
+
+        {% else %}
+
+            {% if aviso %}
+                <div class="alert alert-danger">
+                    <strong>Atención! {{ aviso }}</strong>
+                    <br>
+                    <br>
+                    <p>Si no introduce longitud y latitud, debe ingresar un lugar.</p>
+                    <p>Puede pulsar sobre "geolocalízame" y le aparecerán de forma automática, pero su explorador de Internet debe ser compatible</p>
+                    <p>Por tanto, de no contar con coordenadas, ya sea de forma automática o introducción manual, debe ingresar un lugar</p>
+                </div>
+            {% else %}
+                <h4> Cubra el siguiente formulario para obtener los datos:</h4>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info">Seleccione el lugar para el que desea obtener la predicción del tiempo.</li>
+                    <li class="list-group-item list-group-item-info">Seleccione el nº de días para la predicción.</li>
+                    <li class="list-group-item list-group-item-info">Seleccione las variables del tiempo en las que está interesado.</li>
+                    <li class="list-group-item list-group-item-info">Seleccione la gráfica que desea imprimir.</li>
+                </ul>
+            {% endif %}
+            <section>
+                <p>Podemos geolocalizarle si lo desea:</p>
+                <a href="#" id="geolocateMe">Geolocalízame</a>
+                <p id="error"></p>
+            </section>
+            <br>
+            <form  method="POST">
+                {{ form.as_p }}
+
+                {% csrf_token  %}
+                <input type="submit" class="btn btn-primary" name="primero">
+            </form>
+
+        {% endif %}
+
+    {% endif %}
 
 {% endblock %}
 
