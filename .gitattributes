@@ -1,1 +1,2 @@
 linguist-languaje=Python
+*.c linguist-language=Python
